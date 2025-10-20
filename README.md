@@ -17,7 +17,7 @@ A flexible Flutter package for UAE Dirham currency display with multiple symbol 
 
 ```yaml
 dependencies:
-  dirham_symbol: ^0.2.1
+  dirham_symbol: ^0.2.2
 ```
 
 ## Quick Start
