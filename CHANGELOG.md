@@ -1,4 +1,4 @@
-## 0.2.0
+## 0.2.1
 
 * Initial release
 * Basic Dirham symbol SVG icon widget
@@ -9,3 +9,4 @@
 * Automatic icon sizing based on text size
 * Decimal support
 * Full customization with TextStyle
+*  Updated LICENSE to MIT
