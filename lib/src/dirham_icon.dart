@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+/// Enum for different Dirham symbol types
+enum DirhamSymbolType {
+  /// SVG icon with D and two horizontal lines
+  icon,
+  
+  /// Arabic text symbol: د.إ
+  arabic,
+  
+  /// Latin text symbol: AED
+  aed,
+  
+  /// Dh symbol
+  dh,
+}
+
 /// Simple Dirham Icon Widget
 class DirhamIcon extends StatelessWidget {
   final double? size;
@@ -25,6 +40,51 @@ class DirhamIcon extends StatelessWidget {
   }
 }
 
+/// Dirham Symbol Widget - Shows different types of dirham symbols
+class DirhamSymbol extends StatelessWidget {
+  final DirhamSymbolType type;
+  final double? size;
+  final Color? color;
+  final TextStyle? textStyle;
+
+  const DirhamSymbol({
+    super.key,
+    this.type = DirhamSymbolType.icon,
+    this.size,
+    this.color,
+    this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    switch (type) {
+      case DirhamSymbolType.icon:
+        return DirhamIcon(size: size ?? 24.0, color: color);
+      
+      case DirhamSymbolType.arabic:
+        return Text(
+          'د.إ',
+          style: textStyle?.copyWith(color: color) ??
+              TextStyle(fontSize: size ?? 16, color: color),
+        );
+      
+      case DirhamSymbolType.aed:
+        return Text(
+          'AED',
+          style: textStyle?.copyWith(color: color) ??
+              TextStyle(fontSize: size ?? 16, color: color),
+        );
+      
+      case DirhamSymbolType.dh:
+        return Text(
+          'Dh',
+          style: textStyle?.copyWith(color: color) ??
+              TextStyle(fontSize: size ?? 16, color: color),
+        );
+    }
+  }
+}
+
 /// Dirham Price Widget - Shows amount with dirham symbol
 class DirhamPrice extends StatelessWidget {
   final double amount;
@@ -34,6 +94,7 @@ class DirhamPrice extends StatelessWidget {
   final double? iconSize;
   final Color? iconColor;
   final MainAxisAlignment alignment;
+  final DirhamSymbolType symbolType;
 
   const DirhamPrice({
     super.key,
@@ -44,6 +105,7 @@ class DirhamPrice extends StatelessWidget {
     this.iconSize,
     this.iconColor,
     this.alignment = MainAxisAlignment.start,
+    this.symbolType = DirhamSymbolType.icon,
   });
 
   @override
@@ -60,18 +122,22 @@ class DirhamPrice extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (symbolBefore) ...[
-          DirhamIcon(
+          DirhamSymbol(
+            type: symbolType,
             size: calculatedIconSize,
             color: iconColor ?? textStyle.color,
+            textStyle: textStyle,
           ),
           const SizedBox(width: 4),
         ],
         Text(amountText, style: textStyle),
         if (!symbolBefore) ...[
           const SizedBox(width: 4),
-          DirhamIcon(
+          DirhamSymbol(
+            type: symbolType,
             size: calculatedIconSize,
             color: iconColor ?? textStyle.color,
+            textStyle: textStyle,
           ),
         ],
       ],
@@ -87,6 +153,7 @@ class DirhamPriceRange extends StatelessWidget {
   final bool showDecimals;
   final double? iconSize;
   final Color? iconColor;
+  final DirhamSymbolType symbolType;
 
   const DirhamPriceRange({
     super.key,
@@ -96,6 +163,7 @@ class DirhamPriceRange extends StatelessWidget {
     this.showDecimals = false,
     this.iconSize,
     this.iconColor,
+    this.symbolType = DirhamSymbolType.icon,
   });
 
   @override
@@ -109,6 +177,7 @@ class DirhamPriceRange extends StatelessWidget {
           showDecimals: showDecimals,
           iconSize: iconSize,
           iconColor: iconColor,
+          symbolType: symbolType,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -120,6 +189,7 @@ class DirhamPriceRange extends StatelessWidget {
           showDecimals: showDecimals,
           iconSize: iconSize,
           iconColor: iconColor,
+          symbolType: symbolType,
         ),
       ],
     );

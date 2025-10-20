@@ -1,6 +1,6 @@
 name: dirham_symbol
-description: A Flutter package providing the Dirham currency symbol as an SVG icon widget.
-version: 0.1.0
+description: A Flutter package providing the UAE Dirham currency symbol as an SVG icon widget with easy-to-use price formatting widgets.
+version: 0.2.0
 homepage: https://github.com/nadeerep07/dirham-symbol.git
 
 environment:
