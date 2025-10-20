@@ -17,7 +17,7 @@ A flexible Flutter package for UAE Dirham currency display with multiple symbol 
 
 ```yaml
 dependencies:
-  dirham_symbol: ^0.2.2
+  dirham_symbol: ^0.2.3
 ```
 
 ## Quick Start
@@ -133,21 +133,21 @@ MIT License - see [LICENSE](LICENSE) for details.
 ## Screenshots
 
 ### Main Feature
-![Main Feature](screenshots/main_feature.png)
+<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/main_feature.png" alt="Main Feature" width="600"/>
 
 ### Examples
-![Examples](screenshots/examples.png)
+<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/examples.png" alt="Examples" width="600"/>
 
 ### Symbol Positions
-![Different Positions](screenshots/different_positions.png)
+<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/different_positions.png" alt="Different Positions" width="600"/>
 
 ### Comparison Table
-![Comparison Table](screenshots/comparison_table.png)
+<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/comparison_table.png" alt="Comparison Table" width="600"/>
 
 ## Links
 
-- [GitHub](https://github.com/nadeerep07/dirham-symbol.git)
-- [Issues](https://github.com/nadeerep07/dirham-symbol.git)
+- [GitHub](https://github.com/nadeerep07/dirham-symbol)
+- [Issues](https://github.com/nadeerep07/dirham-symbol/issues)
 - [pub.dev](https://pub.dev/packages/dirham_symbol)
 
 ---
