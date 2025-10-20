@@ -141,7 +141,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 ### Symbol Positions
 ![Different Positions](screenshots/different_positions.png)
 
-### Price Comparison
+### Comparison Table
 ![Comparison Table](screenshots/comparison_table.png)
 
 ## Links
