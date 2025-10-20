@@ -1,40 +1,45 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Dirham Symbol
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter package providing the Dirham currency symbol (د.إ) as a customizable SVG icon widget.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- High-quality SVG Dirham symbol
+- Customizable size and color
+- Easy to integrate
+- Lightweight
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+Add to your `pubspec.yaml`:
+```yaml
+dependencies:
+  dirham_symbol: ^0.1.0
 ```
 
-## Additional information
+## Usage
+```dart
+import 'package:dirham_symbol/dirham_symbol.dart';
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
-# dirham-symbol
+// Basic usage
+DirhamIcon()
+
+// Custom size
+DirhamIcon(size: 50)
+
+// Custom color
+DirhamIcon(size: 30, color: Colors.green)
+
+// In text
+Row(
+  children: [
+    Text('Price: '),
+    DirhamIcon(size: 20),
+    Text(' 100'),
+  ],
+)
+```
+
+## License
+
+MIT License
