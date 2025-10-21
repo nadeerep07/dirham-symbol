@@ -5,13 +5,13 @@ import 'package:flutter_svg/svg.dart';
 enum DirhamSymbolType {
   /// SVG icon with D and two horizontal lines
   icon,
-  
+
   /// Arabic text symbol: د.إ
   arabic,
-  
+
   /// Latin text symbol: AED
   aed,
-  
+
   /// Dh symbol
   dh,
 }
@@ -60,21 +60,21 @@ class DirhamSymbol extends StatelessWidget {
     switch (type) {
       case DirhamSymbolType.icon:
         return DirhamIcon(size: size ?? 24.0, color: color);
-      
+
       case DirhamSymbolType.arabic:
         return Text(
           'د.إ',
           style: textStyle?.copyWith(color: color) ??
               TextStyle(fontSize: size ?? 16, color: color),
         );
-      
+
       case DirhamSymbolType.aed:
         return Text(
           'AED',
           style: textStyle?.copyWith(color: color) ??
               TextStyle(fontSize: size ?? 16, color: color),
         );
-      
+
       case DirhamSymbolType.dh:
         return Text(
           'Dh',
@@ -112,9 +112,8 @@ class DirhamPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = style ?? const TextStyle(fontSize: 16);
     final calculatedIconSize = iconSize ?? (textStyle.fontSize ?? 16) * 0.9;
-    final amountText = showDecimals 
-        ? amount.toStringAsFixed(2) 
-        : amount.toStringAsFixed(0);
+    final amountText =
+        showDecimals ? amount.toStringAsFixed(2) : amount.toStringAsFixed(0);
 
     return Row(
       mainAxisSize: MainAxisSize.min,

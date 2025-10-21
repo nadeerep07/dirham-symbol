@@ -1,3 +1,6 @@
+# Don't ignore LICENSE file
+!LICENSE
+
 # Miscellaneous
 *.class
 *.log

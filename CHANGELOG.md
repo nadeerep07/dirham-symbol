@@ -1,4 +1,4 @@
-## 0.2.4
+## 0.2.6
 
 * Initial release
 * Basic Dirham symbol SVG icon widget

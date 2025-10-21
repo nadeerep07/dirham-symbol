@@ -248,22 +248,21 @@ class HomePage extends StatelessWidget {
             _buildSectionTitle('10. Product Card Examples'),
             const SizedBox(height: 10),
             _buildProductCard(
-              title: 
-              'Premium Service',
+              title: 'Premium Service',
               originalPrice: 500,
               discountPrice: 350,
               symbolType: DirhamSymbolType.icon,
             ),
             const SizedBox(height: 10),
             _buildProductCard(
-            title:   'Standard Package',
+              title: 'Standard Package',
               originalPrice: 300,
               discountPrice: 250,
               symbolType: DirhamSymbolType.arabic,
             ),
             const SizedBox(height: 10),
             _buildProductCard(
-            title:   'Basic Plan',
+              title: 'Basic Plan',
               originalPrice: 150,
               discountPrice: 99,
               symbolType: DirhamSymbolType.aed,
@@ -386,10 +385,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Text(
                   description,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
@@ -427,8 +423,8 @@ class HomePage extends StatelessWidget {
     required double discountPrice,
     required DirhamSymbolType symbolType,
   }) {
-    final discount =
-        ((originalPrice - discountPrice) / originalPrice * 100).round();
+    final discount = ((originalPrice - discountPrice) / originalPrice * 100)
+        .round();
 
     return Card(
       elevation: 4,
@@ -493,10 +489,7 @@ class HomePage extends StatelessWidget {
   Widget _buildComparisonTable() {
     return Table(
       border: TableBorder.all(color: Colors.grey.shade300),
-      columnWidths: const {
-        0: FlexColumnWidth(2),
-        1: FlexColumnWidth(1),
-      },
+      columnWidths: const {0: FlexColumnWidth(2), 1: FlexColumnWidth(1)},
       children: [
         TableRow(
           decoration: BoxDecoration(color: Colors.blue.shade50),
@@ -528,10 +521,7 @@ class HomePage extends StatelessWidget {
   TableRow _buildTableRow(String label, double amount, DirhamSymbolType type) {
     return TableRow(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(label),
-        ),
+        Padding(padding: const EdgeInsets.all(8), child: Text(label)),
         Padding(
           padding: const EdgeInsets.all(8),
           child: DirhamPrice(
