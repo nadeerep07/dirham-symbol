@@ -7,18 +7,18 @@ A flexible Flutter package for UAE Dirham currency display with multiple symbol 
 
 ## Features
 
-- 🎯 **Multiple symbol types**: SVG icon, Arabic (د.إ), AED, Dh
-- ✨ **Extension methods**: Clean syntax with `.toDirham()` for both `num` and `String`
-- 🎨 **Customizable**: Size, color, and text styling
-- 💵 **Price formatting**: Decimals, ranges, and inline text
-- 🔄 **Flexible positioning**: Auto or manual symbol placement
-- 🌍 **RTL support**: Proper Arabic text handling
+-  **Multiple symbol types**: SVG icon, Arabic (د.إ), AED, Dh
+-  **Extension methods**: Clean syntax with `.toDirham()` for both `num` and `String`
+-  **Customizable**: Size, color, and text styling
+-  **Price formatting**: Decimals, ranges, and inline text
+-  **Flexible positioning**: Auto or manual symbol placement
+-  **RTL support**: Proper Arabic text handling
 
 ## Installation
 
 ```yaml
 dependencies:
-  dirham_symbol: ^0.3.0  # Updated with extensions
+  dirham_symbol: ^0.3.1  
 ```
 
 ## Quick Start
@@ -294,11 +294,13 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Screenshots
 
-### Light Mode
-<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/light_mode.png" alt="Light Mode Examples" width="600"/>
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/light_mode.png" width="350"/></td>
+    <td><img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/dark_mode.png" width="350"/></td>
+  </tr>
+</table>
 
-### Dark Mode
-<img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/master/screenshots/dark_mode.png" alt="Dark Mode Examples" width="600"/>
 
 ## Links
 
@@ -307,19 +309,5 @@ MIT License - see [LICENSE](LICENSE) for details.
 - [pub.dev](https://pub.dev/packages/dirham_symbol)
 - [API Documentation](https://pub.dev/documentation/dirham_symbol/latest/)
 
-## Changelog
-
-### 0.3.0
-- ✨ Added extension methods for `num` and `String` types
-- 🎯 New `.toDirham()`, `.toDirhamText()`, and `.toDirhamRange()` methods
-- 📝 Enhanced documentation and examples
-- 🔄 Fully backward compatible with 0.2.7
-
-### 0.2.7
-- Initial stable release with core widgets
-- Multiple symbol types support
-- Price formatting and ranges
-
----
 
 Created with ❤️ for the Flutter community
