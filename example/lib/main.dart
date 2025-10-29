@@ -1,441 +1,350 @@
 import 'package:flutter/material.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
+/// Example app demonstrating all features of the dirham_symbol package:
+/// - Adaptive theming (light/dark)
+/// - Auto positioning (symbol before/after number)
+/// - Inline text formatting
+/// - Extensions for String and num
+/// - Range and styled examples
+void main() => runApp(const DirhamSymbolExampleApp());
+
+class DirhamSymbolExampleApp extends StatefulWidget {
+  const DirhamSymbolExampleApp({super.key});
+
+  @override
+  State<DirhamSymbolExampleApp> createState() => _DirhamSymbolExampleAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _DirhamSymbolExampleAppState extends State<DirhamSymbolExampleApp> {
+  ThemeMode _themeMode = ThemeMode.light;
+
+  void _toggleTheme() {
+    setState(() {
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dirham Symbol Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(),
+      title: 'Dirham Symbol Example',
+      debugShowCheckedModeBanner: false,
+      themeMode: _themeMode,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+        brightness: Brightness.dark,
+      ),
+      home: HomePage(
+        themeMode: _themeMode,
+        onToggleTheme: _toggleTheme,
+      ),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final ThemeMode themeMode;
+  final VoidCallback onToggleTheme;
+
+  const HomePage({
+    super.key,
+    required this.themeMode,
+    required this.onToggleTheme,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FB),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        title: Text(
-          'Dirham Symbol Showcase',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
+        title: const Text('Dirham Symbol Example'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              themeMode == ThemeMode.light
+                  ? Icons.dark_mode_rounded
+                  : Icons.light_mode_rounded,
+            ),
+            onPressed: onToggleTheme,
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          _header(isLight),
+          const SizedBox(height: 30),
+
+          _sectionTitle('💎 Basic Usage'),
+          const SizedBox(height: 12),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DirhamIcon(size: 30),
+              DirhamIcon(size: 50, color: Colors.green),
+              DirhamIcon(size: 70, color: Colors.orange),
+            ],
+          ),
+          const Divider(height: 40),
+
+          _sectionTitle('💵 Price Display'),
+          const SizedBox(height: 12),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.icon),
+              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.arabic),
+              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.aed),
+            ],
+          ),
+          const Divider(height: 40),
+
+          _extensionsSection(isLight),
+          const Divider(height: 40),
+
+          _inlineTextSection(isLight),
+          const Divider(height: 40),
+
+          _priceRangeSection(isLight),
+          const Divider(height: 40),
+
+          _autoPositionSection(isLight),
+          const Divider(height: 40),
+
+          _styledExamples(isLight),
+
+          const SizedBox(height: 40),
+          Center(
+            child: Text(
+              'Made with ❤️ for UAE Developers',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // -------------------------------------------------
+  // 🟣 Reusable UI Helpers
+  // -------------------------------------------------
+  static Widget _sectionTitle(String title) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+      );
+
+  static Widget _header(bool isLight) => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isLight
+                ? [Colors.indigo.shade400, Colors.blue.shade700]
+                : [Colors.indigo.shade700, Colors.blueGrey.shade900],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '💰 Dirham Symbol Kit',
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Modern, theme-aware, and auto-positioned AED symbols for Flutter.',
+              style: TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+          ],
+        ),
+      );
+
+  // -------------------------------------------------
+  // 🧩 Feature Sections
+  // -------------------------------------------------
+
+  static Widget _extensionsSection(bool isLight) => _decorated(
+        color: Colors.purple,
+        isLight: isLight,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _headerSection(),
-            const SizedBox(height: 24),
-
-            _buildSection(
-              title: 'Basic Dirham Icon',
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  DirhamIcon(size: 24),
-                  DirhamIcon(size: 50),
-                  DirhamIcon(size: 80),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Colored Icons',
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  DirhamIcon(size: 40, color: Colors.red),
-                  DirhamIcon(size: 40, color: Colors.green),
-                  DirhamIcon(size: 40, color: Colors.blue),
-                  DirhamIcon(size: 40, color: Colors.orange),
-                  DirhamIcon(size: 40, color: Colors.purple),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Different Symbol Types (Auto-positioning)',
-              subtitle: 'Arabic symbols appear after amount, others before',
-              child: Column(
-                children: [
-                  _symbolDemo('SVG Icon', DirhamSymbolType.icon, 'Modern custom design'),
-                  _symbolDemo('Arabic (د.إ)', DirhamSymbolType.arabic, 'Auto: 150 د.إ'),
-                  _symbolDemo('AED', DirhamSymbolType.aed, 'International standard'),
-                  _symbolDemo('Dh', DirhamSymbolType.dh, 'Simplified display'),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Manual Override Examples',
-              subtitle: 'Force symbol position when needed',
-              child: Column(
-                children: [
-                  _comparisonRow('Arabic (Default)', 
-                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.arabic),
-                    '100 د.إ'),
-                  _comparisonRow('Arabic (Force Before)', 
-                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.arabic, symbolBefore: true),
-                    'د.إ 100'),
-                  const Divider(height: 24),
-                  _comparisonRow('AED (Default)', 
-                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.aed),
-                    'AED 100'),
-                  _comparisonRow('AED (Force After)', 
-                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.aed, symbolBefore: false),
-                    '100 AED'),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Price Comparison (Sale)',
-              child: Row(
-                children: const [
-                  DirhamPrice(
-                    amount: 500,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  DirhamPrice(
-                    amount: 350,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Chip(
-                    label: Text(
-                      '30% OFF',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    backgroundColor: Colors.redAccent,
-                  ),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Product Cards',
-              child: Column(
-                children: [
-                  _productCard('Premium Service', 500, 350, DirhamSymbolType.icon),
-                  _productCard('Standard Package', 300, 250, DirhamSymbolType.arabic),
-                  _productCard('Basic Plan', 150, 99, DirhamSymbolType.aed),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Price Ranges',
-              child: Column(
-                children: [
-                  _rangeDemo('Icon Range', DirhamSymbolType.icon, 50, 100),
-                  _rangeDemo('Arabic Range', DirhamSymbolType.arabic, 75, 150),
-                  _rangeDemo('AED Range', DirhamSymbolType.aed, 100, 200),
-                ],
-              ),
-            ),
-
-            _buildSection(
-              title: 'Inline Price Text',
-              child: Row(
-                children: const [
-                  Text('Starting from ', style: TextStyle(fontSize: 16)),
-                  DirhamPrice(
-                    amount: 99,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                    ),
-                  ),
-                  Text(' only!', style: TextStyle(fontSize: 16)),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 40),
-            Center(
-              child: Text(
-                'Made with ❤️ for UAE Pricing',
-                style: GoogleFonts.poppins(
-                  color: Colors.grey,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+            const Text('✨ Extensions - Numeric & String Types',
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                99.99.toDirham(showDecimals: true),
+                250.toDirham(symbolType: DirhamSymbolType.arabic),
+                "1000".toDirham(symbolType: DirhamSymbolType.aed),
+              ],
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
 
-  // Header Section
-  Widget _headerSection() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4B6CB7), Color(0xFF182848)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+  static Widget _inlineTextSection(bool isLight) => _decorated(
+        color: Colors.orange,
+        isLight: isLight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('💬 Inline Text Examples',
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 12),
+            149.99.toDirhamText(
+              prefix: 'Starting from',
+              suffix: 'only!',
+              symbolType: DirhamSymbolType.arabic,
+              showDecimals: true,
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            "299".toDirhamText(
+              prefix: 'Limited offer:',
+              suffix: 'today',
+              symbolType: DirhamSymbolType.icon,
+              style: const TextStyle(
+                  fontSize: 14, fontStyle: FontStyle.italic),
+            ),
+          ],
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '💰 Dirham Symbol Kit',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'A modern way to show prices in AED — icons, styles, and flexibility.',
-            style: GoogleFonts.poppins(
-              color: Colors.white70,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+      );
 
-  // Reusable Modern Section
-  Widget _buildSection({
-    required String title, 
+  static Widget _priceRangeSection(bool isLight) => _decorated(
+        color: Colors.blue,
+        isLight: isLight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('📊 Price Range Example',
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 12),
+            50.toDirhamRange(
+              100,
+              symbolType: DirhamSymbolType.arabic,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            "500".toDirhamRange(
+              "1500",
+              symbolType: DirhamSymbolType.aed,
+              style: const TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
+      );
+
+  static Widget _autoPositionSection(bool isLight) => _decorated(
+        color: Colors.indigo,
+        isLight: isLight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('🌍 Auto Positioning',
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 8),
+            99.toDirham(
+              symbolType: DirhamSymbolType.aed,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 6),
+            99.toDirham(
+              symbolType: DirhamSymbolType.arabic,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      );
+
+  static Widget _styledExamples(bool isLight) => Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: [
+          _priceCard('999', 'Premium', Colors.purple, isLight),
+          _priceCard('499', 'Standard', Colors.blue, isLight),
+          _priceCard('199', 'Basic', Colors.green, isLight),
+        ],
+      );
+
+  // -------------------------------------------------
+  // 🎨 Shared Decorations
+  // -------------------------------------------------
+
+  static Widget _decorated({
+    required Color color,
+    required bool isLight,
     required Widget child,
-    String? subtitle,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade200,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
       padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isLight
+            ? color.withOpacity(0.05)
+            : color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: child,
+    );
+  }
+
+  static Widget _priceCard(
+    String price,
+    String label,
+    Color color,
+    bool isLight,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: isLight
+            ? color.withOpacity(0.1)
+            : color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
+          price.toDirham(
+            symbolType: DirhamSymbolType.arabic,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: color,
             ),
           ),
-          if (subtitle != null) ...[
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: GoogleFonts.poppins(
-                fontSize: 13,
-                color: Colors.grey.shade600,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ],
-          const SizedBox(height: 12),
-          child,
-        ],
-      ),
-    );
-  }
-
-  // Symbol demo card
-  Widget _symbolDemo(String label, DirhamSymbolType type, String desc) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  )),
-              Text(desc,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  )),
-            ],
-          ),
-          DirhamPrice(
-            amount: 150,
-            symbolType: type,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Comparison row for manual override demos
-  Widget _comparisonRow(String label, Widget priceWidget, String expected) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: GoogleFonts.poppins(fontSize: 13),
-            ),
-          ),
-          priceWidget,
-        ],
-      ),
-    );
-  }
-
-  // Range demo
-  Widget _rangeDemo(String label, DirhamSymbolType type, double min, double max) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+          const SizedBox(height: 4),
           Text(
             label,
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
+            style: TextStyle(
+              fontSize: 12,
+              color: isLight ? Colors.black54 : Colors.white70,
             ),
-          ),
-          DirhamPriceRange(
-            minAmount: min,
-            maxAmount: max,
-            symbolType: type,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Product card
-  Widget _productCard(
-    String title,
-    double originalPrice,
-    double discountPrice,
-    DirhamSymbolType symbolType,
-  ) {
-    final discount = ((originalPrice - discountPrice) / originalPrice * 100).round();
-
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFAFAFA),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Left side
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  )),
-              const SizedBox(height: 4),
-              Text('Save $discount%',
-                  style: GoogleFonts.poppins(
-                    color: Colors.green,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ],
-          ),
-          // Right side
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              DirhamPrice(
-                amount: originalPrice,
-                symbolType: symbolType,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  decoration: TextDecoration.lineThrough,
-                ),
-              ),
-              const SizedBox(height: 4),
-              DirhamPrice(
-                amount: discountPrice,
-                symbolType: symbolType,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            ],
           ),
         ],
       ),
