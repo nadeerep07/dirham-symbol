@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 void main() {
   runApp(const MyApp());
 }
@@ -21,14 +19,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
       appBar: AppBar(
@@ -78,13 +73,36 @@ class HomePage extends StatelessWidget {
             ),
 
             _buildSection(
-              title: 'Different Symbol Types',
+              title: 'Different Symbol Types (Auto-positioning)',
+              subtitle: 'Arabic symbols appear after amount, others before',
               child: Column(
                 children: [
                   _symbolDemo('SVG Icon', DirhamSymbolType.icon, 'Modern custom design'),
-                  _symbolDemo('Arabic (د.إ)', DirhamSymbolType.arabic, 'For Arabic / RTL apps'),
+                  _symbolDemo('Arabic (د.إ)', DirhamSymbolType.arabic, 'Auto: 150 د.إ'),
                   _symbolDemo('AED', DirhamSymbolType.aed, 'International standard'),
                   _symbolDemo('Dh', DirhamSymbolType.dh, 'Simplified display'),
+                ],
+              ),
+            ),
+
+            _buildSection(
+              title: 'Manual Override Examples',
+              subtitle: 'Force symbol position when needed',
+              child: Column(
+                children: [
+                  _comparisonRow('Arabic (Default)', 
+                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.arabic),
+                    '100 د.إ'),
+                  _comparisonRow('Arabic (Force Before)', 
+                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.arabic, symbolBefore: true),
+                    'د.إ 100'),
+                  const Divider(height: 24),
+                  _comparisonRow('AED (Default)', 
+                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.aed),
+                    'AED 100'),
+                  _comparisonRow('AED (Force After)', 
+                    const DirhamPrice(amount: 100, symbolType: DirhamSymbolType.aed, symbolBefore: false),
+                    '100 AED'),
                 ],
               ),
             ),
@@ -129,6 +147,17 @@ class HomePage extends StatelessWidget {
                   _productCard('Premium Service', 500, 350, DirhamSymbolType.icon),
                   _productCard('Standard Package', 300, 250, DirhamSymbolType.arabic),
                   _productCard('Basic Plan', 150, 99, DirhamSymbolType.aed),
+                ],
+              ),
+            ),
+
+            _buildSection(
+              title: 'Price Ranges',
+              child: Column(
+                children: [
+                  _rangeDemo('Icon Range', DirhamSymbolType.icon, 50, 100),
+                  _rangeDemo('Arabic Range', DirhamSymbolType.arabic, 75, 150),
+                  _rangeDemo('AED Range', DirhamSymbolType.aed, 100, 200),
                 ],
               ),
             ),
@@ -206,7 +235,11 @@ class HomePage extends StatelessWidget {
   }
 
   // Reusable Modern Section
-  Widget _buildSection({required String title, required Widget child}) {
+  Widget _buildSection({
+    required String title, 
+    required Widget child,
+    String? subtitle,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
@@ -232,6 +265,17 @@ class HomePage extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                color: Colors.grey.shade600,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           child,
         ],
@@ -268,9 +312,62 @@ class HomePage extends StatelessWidget {
           ),
           DirhamPrice(
             amount: 150,
-            symbolBefore: type != DirhamSymbolType.arabic,
             symbolType: type,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Comparison row for manual override demos
+  Widget _comparisonRow(String label, Widget priceWidget, String expected) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: GoogleFonts.poppins(fontSize: 13),
+            ),
+          ),
+          priceWidget,
+        ],
+      ),
+    );
+  }
+
+  // Range demo
+  Widget _rangeDemo(String label, DirhamSymbolType type, double min, double max) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+            ),
+          ),
+          DirhamPriceRange(
+            minAmount: min,
+            maxAmount: max,
+            symbolType: type,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -321,7 +418,6 @@ class HomePage extends StatelessWidget {
             children: [
               DirhamPrice(
                 amount: originalPrice,
-                symbolBefore: symbolType != DirhamSymbolType.arabic,
                 symbolType: symbolType,
                 style: const TextStyle(
                   fontSize: 14,
@@ -332,7 +428,6 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 4),
               DirhamPrice(
                 amount: discountPrice,
-                symbolBefore: symbolType != DirhamSymbolType.arabic,
                 symbolType: symbolType,
                 style: const TextStyle(
                   fontSize: 20,

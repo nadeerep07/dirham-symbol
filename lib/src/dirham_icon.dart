@@ -90,7 +90,7 @@ class DirhamPrice extends StatelessWidget {
   final double amount;
   final TextStyle? style;
   final bool showDecimals;
-  final bool symbolBefore; // true = د.إ 100, false = 100 د.إ
+  final bool? symbolBefore; // null = auto (arabic after, others before)
   final double? iconSize;
   final Color? iconColor;
   final MainAxisAlignment alignment;
@@ -101,12 +101,21 @@ class DirhamPrice extends StatelessWidget {
     required this.amount,
     this.style,
     this.showDecimals = false,
-    this.symbolBefore = true,
+    this.symbolBefore,
     this.iconSize,
     this.iconColor,
     this.alignment = MainAxisAlignment.start,
     this.symbolType = DirhamSymbolType.icon,
   });
+
+  /// Determines if symbol should be before amount based on type
+  bool get _shouldSymbolBeBefore {
+    // If explicitly set, use that value
+    if (symbolBefore != null) return symbolBefore!;
+    
+    // Default behavior: Arabic symbol after amount, others before
+    return symbolType != DirhamSymbolType.arabic;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +129,7 @@ class DirhamPrice extends StatelessWidget {
       mainAxisAlignment: alignment,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (symbolBefore) ...[
+        if (_shouldSymbolBeBefore) ...[
           DirhamSymbol(
             type: symbolType,
             size: calculatedIconSize,
@@ -130,7 +139,7 @@ class DirhamPrice extends StatelessWidget {
           const SizedBox(width: 4),
         ],
         Text(amountText, style: textStyle),
-        if (!symbolBefore) ...[
+        if (!_shouldSymbolBeBefore) ...[
           const SizedBox(width: 4),
           DirhamSymbol(
             type: symbolType,
@@ -153,6 +162,7 @@ class DirhamPriceRange extends StatelessWidget {
   final double? iconSize;
   final Color? iconColor;
   final DirhamSymbolType symbolType;
+  final bool? symbolBefore;
 
   const DirhamPriceRange({
     super.key,
@@ -163,6 +173,7 @@ class DirhamPriceRange extends StatelessWidget {
     this.iconSize,
     this.iconColor,
     this.symbolType = DirhamSymbolType.icon,
+    this.symbolBefore,
   });
 
   @override
@@ -177,6 +188,7 @@ class DirhamPriceRange extends StatelessWidget {
           iconSize: iconSize,
           iconColor: iconColor,
           symbolType: symbolType,
+          symbolBefore: symbolBefore,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -189,6 +201,7 @@ class DirhamPriceRange extends StatelessWidget {
           iconSize: iconSize,
           iconColor: iconColor,
           symbolType: symbolType,
+          symbolBefore: symbolBefore,
         ),
       ],
     );
