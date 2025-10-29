@@ -24,7 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.2.7] - 2024-12-10
+## [0.2.7] - 2025-12-10
 
 ### 🏁 Initial Release
 - Introduced **Dirham symbol** as an SVG widget (`DirhamIcon`)
