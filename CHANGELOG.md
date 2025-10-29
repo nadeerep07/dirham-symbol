@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.3.0] - 2025-10-29
+## [0.3.1] - 2025-10-29
 
 ### Added
 - ✨ **Extension Methods** for `num` and `String`:
