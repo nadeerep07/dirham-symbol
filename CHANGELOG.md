@@ -5,17 +5,17 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.3.1] - 2025-10-29
+## [0.3.2] - 2025-10-29
 
 ### Added
 - ✨ **Extension Methods** for `num` and `String`:
   - `.toDirham()` → clean and quick price display
   - `.toDirhamText()` → inline promotional text support
   - `.toDirhamRange()` → for displaying min–max price ranges
--  **InlineDirhamText Widget** for embedding prices in sentences
--  **Improved Symbol Rendering** — supports custom size, color, and style
--  **Adaptive Light/Dark Mode** for better theme consistency
--  **Backward Compatibility** with version `0.2.7`
+- **InlineDirhamText Widget** for embedding prices in sentences
+- **Improved Symbol Rendering** — supports custom size, color, and style
+- **Adaptive Light/Dark Mode** for better theme consistency
+- **Backward Compatibility** with version `0.2.7`
 
 ### Updated
 - Smarter **symbol positioning** logic (auto-detect before/after)
@@ -24,7 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.2.7] - 2025-12-10
+## [0.2.7] - 2025-10-27
 
 ### 🏁 Initial Release
 - Introduced **Dirham symbol** as an SVG widget (`DirhamIcon`)
@@ -36,4 +36,4 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
- **Dirham Symbol** — built with ❤️ for the Flutter community.
+**Dirham Symbol** — built with ❤️ for the Flutter community.
