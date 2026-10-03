@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.4.1] - 2026-10-03
+
+### 🔧 Fixes & Docs
+- Fixed screenshot asset URLs in `README.md` to reference the `main` branch.
+- Cleaned up symbol table rendering for pub.dev.
+
+---
+
 ## [0.4.0] - 2026-10-03
 
 ### 🚀 Major Feature Update (100% Backward Compatible)
