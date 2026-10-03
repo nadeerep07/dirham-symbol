@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.5.1] - 2026-10-03
+
+### 🔧 Cleanup & Metadata
+- Updated package description and documentation comments to reflect the native font glyph engine.
+- Cleaned up obsolete asset files.
+
+---
+
 ## [0.5.0] - 2026-10-03
 
 ### ⚡ Font Glyph Engine & Lightweight Architecture

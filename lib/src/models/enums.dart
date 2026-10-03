@@ -1,6 +1,6 @@
 /// Supported Dirham symbol display types
 enum DirhamSymbolType {
-  /// SVG/Vector icon with the official UAE Dirham symbol (D with two horizontal lines)
+  /// Official UAE Dirham symbol font glyph (D with two horizontal lines)
   icon,
 
   /// Arabic text symbol: د.إ
