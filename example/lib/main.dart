@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
 
-/// Example app demonstrating all features of the dirham_symbol package:
-/// - Adaptive theming (light/dark)
-/// - Auto positioning (symbol before/after number)
-/// - Inline text formatting
-/// - Extensions for String and num
-/// - Range and styled examples
-void main() => runApp(const DirhamSymbolExampleApp());
+void main() => runApp(const DirhamExampleApp());
 
-class DirhamSymbolExampleApp extends StatefulWidget {
-  const DirhamSymbolExampleApp({super.key});
+class DirhamExampleApp extends StatefulWidget {
+  const DirhamExampleApp({super.key});
 
   @override
-  State<DirhamSymbolExampleApp> createState() => _DirhamSymbolExampleAppState();
+  State<DirhamExampleApp> createState() => _DirhamExampleAppState();
 }
 
-class _DirhamSymbolExampleAppState extends State<DirhamSymbolExampleApp> {
+class _DirhamExampleAppState extends State<DirhamExampleApp> {
   ThemeMode _themeMode = ThemeMode.light;
 
   void _toggleTheme() {
     setState(() {
-      _themeMode = _themeMode == ThemeMode.light
-          ? ThemeMode.dark
-          : ThemeMode.light;
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
@@ -35,102 +28,133 @@ class _DirhamSymbolExampleAppState extends State<DirhamSymbolExampleApp> {
       themeMode: _themeMode,
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
+        colorSchemeSeed: const Color(0xFF007A3D),
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
+        colorSchemeSeed: const Color(0xFF007A3D),
         brightness: Brightness.dark,
       ),
-      home: HomePage(themeMode: _themeMode, onToggleTheme: _toggleTheme),
+      home: ExampleHomePage(
+        isDarkMode: _themeMode == ThemeMode.dark,
+        onToggleTheme: _toggleTheme,
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  final ThemeMode themeMode;
+class ExampleHomePage extends StatelessWidget {
+  final bool isDarkMode;
   final VoidCallback onToggleTheme;
 
-  const HomePage({
+  const ExampleHomePage({
     super.key,
-    required this.themeMode,
+    required this.isDarkMode,
     required this.onToggleTheme,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dirham Symbol Example'),
-        centerTitle: true,
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DirhamIcon(size: 24, color: Color(0xFF007A3D)),
+            SizedBox(width: 8),
+            Text('Dirham Symbol Suite', style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
         actions: [
           IconButton(
-            icon: Icon(
-              themeMode == ThemeMode.light
-                  ? Icons.dark_mode_rounded
-                  : Icons.light_mode_rounded,
-            ),
+            icon: Icon(isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded),
             onPressed: onToggleTheme,
+            tooltip: 'Toggle Theme',
           ),
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         children: [
-          _header(isLight),
-          const SizedBox(height: 30),
-
-          _sectionTitle('💎 Basic Usage'),
-          const SizedBox(height: 12),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              DirhamIcon(size: 30),
-              DirhamIcon(size: 50, color: Colors.green),
-              DirhamIcon(size: 70, color: Colors.orange),
-            ],
+          // 1. Official UAE Symbols
+          _section(
+            '🌟 Official Dirham Icon & Symbols',
+            const Wrap(
+              spacing: 16,
+              runSpacing: 12,
+              alignment: WrapAlignment.spaceEvenly,
+              children: [
+                Column(children: [DirhamIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Icon (SVG)', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamVectorIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Vector Canvas', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamSymbol(type: DirhamSymbolType.arabic, size: 24), SizedBox(height: 4), Text('Arabic (د.إ)', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamSymbol(type: DirhamSymbolType.aed, size: 20), SizedBox(height: 4), Text('AED Code', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamSymbol(type: DirhamSymbolType.dh, size: 20), SizedBox(height: 4), Text('Dh Short', style: TextStyle(fontSize: 11))]),
+              ],
+            ),
           ),
-          const Divider(height: 40),
+          const SizedBox(height: 14),
 
-          _sectionTitle('💵 Price Display'),
-          const SizedBox(height: 12),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.icon),
-              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.arabic),
-              DirhamPrice(amount: 150, symbolType: DirhamSymbolType.aed),
-            ],
+          // 2. Extensions (.toDirham())
+          _section(
+            '⚡ Extension Methods',
+            Column(
+              children: [
+                _row('99.99.toDirham()', 99.99.toDirham(showDecimals: true)),
+                const Divider(),
+                _row('"1500".toDirham(arabic)', "1500".toDirham(symbolType: DirhamSymbolType.arabic)),
+                const Divider(),
+                _row('50.toDirhamRange(150)', 50.toDirhamRange(150)),
+                const Divider(),
+                _row('Inline text', 149.toDirhamText(prefix: 'From', suffix: 'only!')),
+              ],
+            ),
           ),
-          const Divider(height: 40),
+          const SizedBox(height: 14),
 
-          _extensionsSection(isLight),
-          const Divider(height: 40),
+          // 3. E-Commerce Sale Prices & Badges
+          _section(
+            '🛍️ E-Commerce Sale Prices & Badges',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _row('299.toDirhamSale(199)', 299.toDirhamSale(199)),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    DirhamBadge(amount: 100, prefix: 'Free delivery over', backgroundColor: Colors.green.shade50, textColor: Colors.green.shade900),
+                    DirhamBadge(amount: 25, prefix: 'Cashback:', backgroundColor: Colors.amber.shade50, textColor: Colors.amber.shade900),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
 
-          _inlineTextSection(isLight),
-          const Divider(height: 40),
-
-          _priceRangeSection(isLight),
-          const Divider(height: 40),
-
-          _autoPositionSection(isLight),
-          const Divider(height: 40),
-
-          _styledExamples(isLight),
-
-          const SizedBox(height: 40),
-          Center(
-            child: Text(
-              'Made with ❤️ for UAE Developers',
-              style: TextStyle(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.6),
-                fontSize: 13,
-              ),
+          // 4. FinTech Currency Input & Formats
+          _section(
+            '💳 Currency Input & String Utilities',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DirhamTextField(
+                  initialAmount: 2500.0,
+                  showClearButton: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Transfer Amount',
+                    isDense: true,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                _row('Pure String:', Text(1500.toDirhamString())),
+                const Divider(),
+                _row('Compact (2.5M AED):', Text(2500000.toDirhamCompact())),
+                const Divider(),
+                _row('5000 Fils to AED:', Text(5000.filsToDirhamString())),
+              ],
             ),
           ),
         ],
@@ -138,220 +162,36 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
-  // 🟣 Reusable UI Helpers
-  // -------------------------------------------------
-  static Widget _sectionTitle(String title) => Padding(
-    padding: const EdgeInsets.only(bottom: 8),
-    child: Text(
-      title,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-    ),
-  );
-
-  static Widget _header(bool isLight) => Container(
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: isLight
-            ? [Colors.indigo.shade400, Colors.blue.shade700]
-            : [Colors.indigo.shade700, Colors.blueGrey.shade900],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
+  static Widget _section(String title, Widget content) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: Colors.black12),
       ),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '💰 Dirham Symbol Kit',
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Modern, theme-aware, and auto-positioned AED symbols for Flutter.',
-          style: TextStyle(color: Colors.white70, fontSize: 14),
-        ),
-      ],
-    ),
-  );
-
-  // -------------------------------------------------
-  // 🧩 Feature Sections
-  // -------------------------------------------------
-
-  static Widget _extensionsSection(bool isLight) => _decorated(
-    color: Colors.purple,
-    isLight: isLight,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '✨ Extensions - Numeric & String Types',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            99.99.toDirham(showDecimals: true),
-            250.toDirham(symbolType: DirhamSymbolType.arabic),
-            "1000".toDirham(symbolType: DirhamSymbolType.aed),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            const SizedBox(height: 12),
+            content,
           ],
         ),
-      ],
-    ),
-  );
-
-  static Widget _inlineTextSection(bool isLight) => _decorated(
-    color: Colors.orange,
-    isLight: isLight,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '💬 Inline Text Examples',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 12),
-        149.99.toDirhamText(
-          prefix: 'Starting from',
-          suffix: 'only!',
-          symbolType: DirhamSymbolType.arabic,
-          showDecimals: true,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        "299".toDirhamText(
-          prefix: 'Limited offer:',
-          suffix: 'today',
-          symbolType: DirhamSymbolType.icon,
-          style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
-        ),
-      ],
-    ),
-  );
-
-  static Widget _priceRangeSection(bool isLight) => _decorated(
-    color: Colors.blue,
-    isLight: isLight,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '📊 Price Range Example',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 12),
-        50.toDirhamRange(
-          100,
-          symbolType: DirhamSymbolType.arabic,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        "500".toDirhamRange(
-          "1500",
-          symbolType: DirhamSymbolType.aed,
-          style: const TextStyle(fontSize: 14),
-        ),
-      ],
-    ),
-  );
-
-  static Widget _autoPositionSection(bool isLight) => _decorated(
-    color: Colors.indigo,
-    isLight: isLight,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '🌍 Auto Positioning',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        99.toDirham(
-          symbolType: DirhamSymbolType.aed,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 6),
-        99.toDirham(
-          symbolType: DirhamSymbolType.arabic,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ],
-    ),
-  );
-
-  static Widget _styledExamples(bool isLight) => Wrap(
-    spacing: 12,
-    runSpacing: 12,
-    children: [
-      _priceCard('999', 'Premium', Colors.purple, isLight),
-      _priceCard('499', 'Standard', Colors.blue, isLight),
-      _priceCard('199', 'Basic', Colors.green, isLight),
-    ],
-  );
-
-  // -------------------------------------------------
-  // 🎨 Shared Decorations
-  // -------------------------------------------------
-
-  static Widget _decorated({
-    required Color color,
-    required bool isLight,
-    required Widget child,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isLight
-            ? color.withValues(alpha: .05)
-            : color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
-      child: child,
     );
   }
 
-  static Widget _priceCard(
-    String price,
-    String label,
-    Color color,
-    bool isLight,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: isLight
-            ? color.withValues(alpha: 0.1)
-            : color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
-      ),
-      child: Column(
+  static Widget _row(String label, Widget child) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          price.toDirham(
-            symbolType: DirhamSymbolType.arabic,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isLight ? Colors.black54 : Colors.white70,
-            ),
-          ),
+          Flexible(child: Text(label, style: const TextStyle(fontSize: 13, color: Colors.grey))),
+          const SizedBox(width: 8),
+          child,
         ],
       ),
     );
