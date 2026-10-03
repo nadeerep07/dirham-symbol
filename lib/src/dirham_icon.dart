@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import 'formatter/dirham_formatter.dart';
 import 'models/enums.dart';
@@ -13,12 +12,26 @@ import 'widgets/dirham_sale_price.dart';
 export 'models/enums.dart';
 
 // ============================================================================
+// CONSTANTS & GLYPHS
+// ============================================================================
+
+/// Raw Unicode character for the UAE Dirham symbol glyph in the bundled font.
+const String kDirhamGlyph = '\u00ea';
+
+/// Name of the bundled Dirham font family.
+const String kDirhamFontFamily = 'Dirham';
+
+/// Package name identifier for loading bundled fonts.
+const String kDirhamPackage = 'dirham_symbol';
+
+// ============================================================================
 // CORE WIDGETS
 // ============================================================================
 
-/// Simple Dirham Icon Widget
+/// Simple Dirham Icon / Font Widget
 ///
-/// Displays an SVG icon representing the official UAE Dirham currency symbol.
+/// Displays the official UAE Dirham currency symbol using the high-performance
+/// bundled font glyph.
 ///
 /// Example:
 /// ```dart
@@ -27,23 +40,33 @@ export 'models/enums.dart';
 class DirhamIcon extends StatelessWidget {
   final double? size;
   final Color? color;
+  final FontWeight? fontWeight;
+  final TextAlign? textAlign;
 
   const DirhamIcon({
     super.key,
     this.size = 24.0,
     this.color,
+    this.fontWeight,
+    this.textAlign,
   });
 
   @override
   Widget build(BuildContext context) {
     final defaultColor = color ?? Theme.of(context).colorScheme.onSurface;
 
-    return SvgPicture.asset(
-      'assets/uae-dirham.svg',
-      package: 'dirham_symbol',
-      width: size,
-      height: size,
-      colorFilter: ColorFilter.mode(defaultColor, BlendMode.srcIn),
+    return Text(
+      kDirhamGlyph,
+      style: TextStyle(
+        fontFamily: kDirhamFontFamily,
+        package: kDirhamPackage,
+        fontSize: size,
+        fontWeight: fontWeight ?? FontWeight.normal,
+        color: defaultColor,
+      ),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+      textAlign: textAlign ?? TextAlign.start,
     );
   }
 }

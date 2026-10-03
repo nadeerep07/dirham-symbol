@@ -85,8 +85,8 @@ class ExampleHomePage extends StatelessWidget {
               runSpacing: 12,
               alignment: WrapAlignment.spaceEvenly,
               children: [
-                Column(children: [DirhamIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Icon (SVG)', style: TextStyle(fontSize: 11))]),
-                Column(children: [DirhamVectorIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Vector Canvas', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Official Font', style: TextStyle(fontSize: 11))]),
+                Column(children: [DirhamIcon(size: 36, color: Color(0xFFC8102E)), SizedBox(height: 4), Text('Tinted Red', style: TextStyle(fontSize: 11))]),
                 Column(children: [DirhamSymbol(type: DirhamSymbolType.arabic, size: 24), SizedBox(height: 4), Text('Arabic (د.إ)', style: TextStyle(fontSize: 11))]),
                 Column(children: [DirhamSymbol(type: DirhamSymbolType.aed, size: 20), SizedBox(height: 4), Text('AED Code', style: TextStyle(fontSize: 11))]),
                 Column(children: [DirhamSymbol(type: DirhamSymbolType.dh, size: 20), SizedBox(height: 4), Text('Dh Short', style: TextStyle(fontSize: 11))]),

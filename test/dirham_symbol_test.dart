@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
 
 void main() {
-  group('DirhamIcon & DirhamVectorIcon', () {
+  group('DirhamIcon & Font Symbol', () {
     testWidgets('DirhamIcon renders with default size', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -13,6 +13,7 @@ void main() {
         ),
       );
       expect(find.byType(DirhamIcon), findsOneWidget);
+      expect(find.text(kDirhamGlyph), findsOneWidget);
     });
 
     testWidgets('DirhamIcon renders with custom size and color', (tester) async {
@@ -24,24 +25,7 @@ void main() {
         ),
       );
       expect(find.byType(DirhamIcon), findsOneWidget);
-    });
-
-    testWidgets('DirhamVectorIcon renders with CustomPaint', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DirhamVectorIcon(size: 32, color: Colors.indigo),
-          ),
-        ),
-      );
-      expect(find.byType(DirhamVectorIcon), findsOneWidget);
-      expect(
-        find.descendant(
-          of: find.byType(DirhamVectorIcon),
-          matching: find.byType(CustomPaint),
-        ),
-        findsOneWidget,
-      );
+      expect(find.text(kDirhamGlyph), findsOneWidget);
     });
   });
 

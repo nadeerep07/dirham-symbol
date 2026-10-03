@@ -7,13 +7,13 @@
 
 The **all-in-one UAE Dirham (AED) currency toolkit** for Flutter. Designed for modern E-Commerce, FinTech, and Banking apps across Dubai, Abu Dhabi, and the GCC.
 
-Includes the **official UAE Dirham vector & SVG symbols**, **live currency input formatters**, **strikethrough sale pricing**, **animated price counters**, **pure string formatters**, **Fils subunit math**, and **global theme support**.
+Includes the **official UAE Dirham font symbol glyph**, **live currency input formatters**, **strikethrough sale pricing**, **animated price counters**, **pure string formatters**, **Fils subunit math**, and **global theme support**.
 
 ---
 
 ## ✨ Features
 
-* 💎 **Official UAE Symbols**: Vector Canvas (`DirhamVectorIcon`) + SVG (`DirhamIcon`) + Arabic (`د.إ`) + Latin (`AED`, `Dh`).
+* 💎 **Official UAE Symbols**: Native Font Glyph (`DirhamIcon`) + Arabic (`د.إ`) + Latin (`AED`, `Dh`).
 * ⚡ **Expressive Extensions**: `.toDirham()`, `.toDirhamString()`, `.toDirhamCompact()`, `.toDirhamSale()`, `.toDirhamBadge()`, `.toDirhamAnimated()`.
 * 💳 **FinTech Input Formatter**: Real-time thousands masking (`1,250.00`) with `DirhamInputFormatter` & ready-to-use `DirhamTextField`.
 * 🏷️ **E-Commerce Sale Pricing**: Slashed original prices + discounted prices + auto-calculated discount badges (`Save 25%`).
@@ -32,7 +32,7 @@ Add `dirham_symbol` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dirham_symbol: ^0.4.0
+  dirham_symbol: ^0.5.0
 ```
 
 Import in your Dart code:
@@ -191,24 +191,36 @@ DirhamTheme(
 ---
 
 ## 🔣 Symbol Types
-
+ 
 | Type | Output | Use Case |
 |:-----|:-------|:---------|
-| `DirhamSymbolType.icon` | 🇦🇪 **Official Vector/SVG Icon** | Modern UAE apps (Official brand glyph) |
+| `DirhamSymbolType.icon` | 🇦🇪 **Official Font Glyph** | Modern UAE apps (Official brand glyph) |
 | `DirhamSymbolType.arabic` | **د.إ** | Arabic & RTL interfaces |
 | `DirhamSymbolType.aed` | **AED** | Standard international apps & banking |
 | `DirhamSymbolType.dh` | **Dh** | Compact abbreviations |
 
 ---
 
-## 🖼️ Zero-Asset Canvas Glyph
+## 🔠 Native Font Glyph & Text Integration
 
-Render the official Dirham symbol with zero asset bundle dependency and high-performance custom canvas paint:
+Render the official Dirham symbol using the high-performance bundled font directly as a widget or text style:
 
 ```dart
-DirhamVectorIcon(
+// Native Widget
+DirhamIcon(
   size: 32,
   color: Color(0xFF007A3D),
+  fontWeight: FontWeight.bold,
+)
+
+// Or as a raw TextStyle
+Text(
+  kDirhamGlyph,
+  style: TextStyle(
+    fontFamily: kDirhamFontFamily,
+    package: kDirhamPackage,
+    fontSize: 24,
+  ),
 )
 ```
 

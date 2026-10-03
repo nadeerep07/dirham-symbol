@@ -5,6 +5,16 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.5.0] - 2026-10-03
+
+### ⚡ Font Glyph Engine & Lightweight Architecture
+- 🔠 **Native Dirham Font Glyph**: `DirhamIcon` now uses the official high-performance bundled Dirham font glyph (`fonts/dirham_font.ttf`), allowing native font scaling, text alignment, and rich text integration.
+- 📦 **Removed `flutter_svg` dependency**: Reduced package size and eliminated external SVG dependencies for a lighter footprint.
+- 🔤 Exposed `kDirhamGlyph`, `kDirhamFontFamily`, and `kDirhamPackage` constants.
+- 🛡️ **100% Backward Compatible**: All existing widget signatures (`DirhamPrice`, `DirhamSalePrice`, `DirhamTextField`, `DirhamBadge`, extensions) continue to work seamlessly.
+
+---
+
 ## [0.4.2] - 2026-10-03
 
 ### 🔧 Docs

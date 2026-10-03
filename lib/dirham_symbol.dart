@@ -9,4 +9,3 @@ export 'src/theme/dirham_theme.dart';
 export 'src/widgets/animated_dirham_price.dart';
 export 'src/widgets/dirham_badge.dart';
 export 'src/widgets/dirham_sale_price.dart';
-export 'src/widgets/dirham_vector_icon.dart';
