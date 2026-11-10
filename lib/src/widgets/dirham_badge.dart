@@ -78,9 +78,10 @@ class DirhamBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeData = DirhamTheme.of(context);
-    final effectiveSymbolType = symbolType ?? themeData.symbolType;
-    final effectiveShowDecimals = showDecimals ?? themeData.showDecimals;
+    final themeData = DirhamTheme.maybeOf(context);
+    final effectiveSymbolType =
+        symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
+    final effectiveShowDecimals = showDecimals ?? themeData?.showDecimals;
 
     final effectiveBgColor = backgroundColor ??
         theme.colorScheme.primaryContainer.withValues(alpha: 0.7);

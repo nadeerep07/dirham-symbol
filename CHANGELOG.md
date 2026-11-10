@@ -5,6 +5,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.5.2] - 2026-11-11
+
+### ✨ Improvements & Fixes
+- **Smart Decimal Formatting**: Fractional amounts (e.g., `99.99.toDirham()` and `99.99.toDirhamString()`) now preserve their decimals automatically instead of rounding to `100`, while whole integers (`1500.toDirham()`) stay clean without `.00` unless `showDecimals: true` is set.
+- **Single-String Font Glyph Support**: Added `DirhamTextStyle`, `.toDirhamGlyphString()`, and `DirhamFormatter.formatWithGlyph()` so the official UAE Dirham glyph can be used directly inside standard Flutter `Text` widgets.
+- **Smarter String Parsing**: `"1,500.50".toDirham()`, `.toDirhamText()`, and `.toDirhamRange()` now parse comma-formatted and currency-prefixed strings cleanly.
+- **Restored `DirhamVectorIcon`**: Re-exported `DirhamVectorIcon` and `DirhamCustomPainter` for full backward compatibility.
+- **Package Size Optimization**: Removed `screenshots/` from the bundled Flutter app assets and added pub.dev `screenshots:` metadata in `pubspec.yaml`.
+- **Streamlined Documentation**: Simplified `README.md` with a 10-second quick start.
+
+---
+
 ## [0.5.1] - 2026-10-03
 
 ### 🔧 Cleanup & Metadata

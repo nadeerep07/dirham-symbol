@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../formatter/dirham_formatter.dart';
 import '../theme/dirham_theme.dart';
 import '../dirham_icon.dart';
 
@@ -99,7 +100,13 @@ class DirhamSalePrice extends StatelessWidget {
         text = '-$discountPercentage%';
         break;
       case DirhamDiscountBadgeType.saveAmount:
-        text = 'Save $savedAmount AED';
+        final formattedSaved = DirhamFormatter.format(
+          savedAmount,
+          symbolType: DirhamSymbolType.aed,
+          symbolBefore: false,
+          showDecimals: showDecimals,
+        );
+        text = 'Save $formattedSaved';
         break;
       case DirhamDiscountBadgeType.custom:
         text = customBadgeText ?? '-$discountPercentage%';
@@ -128,11 +135,13 @@ class DirhamSalePrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = DirhamTheme.of(context);
-    final effectiveSymbolType = symbolType ?? themeData.symbolType;
-    final effectiveShowDecimals = showDecimals ?? themeData.showDecimals;
-    final effectiveFormatNumber = formatNumber ?? themeData.formatNumber;
-    final effectiveLocale = locale ?? themeData.locale;
+    final themeData = DirhamTheme.maybeOf(context);
+    final effectiveSymbolType =
+        symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
+    final effectiveShowDecimals = showDecimals ?? themeData?.showDecimals;
+    final effectiveFormatNumber =
+        formatNumber ?? themeData?.formatNumber ?? true;
+    final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
 
     final defaultSaleStyle = saleStyle ??
         TextStyle(

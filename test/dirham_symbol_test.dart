@@ -279,9 +279,36 @@ void main() {
   group('Extensions on num and String', () {
     test('String formatting extensions', () {
       expect(150.toDirhamString(symbolType: DirhamSymbolType.aed), 'AED 150');
+      expect(99.99.toDirhamString(symbolType: DirhamSymbolType.aed), 'AED 99.99');
+      expect(99.99.toDirhamGlyphString(), '$kDirhamGlyph 99.99');
       expect(1500000.toDirhamCompact(), 'AED 1.5M');
       expect('1250'.toDirhamString(symbolType: DirhamSymbolType.arabic), '1,250 د.إ');
       expect('2500000'.toDirhamCompact(), 'AED 2.5M');
+    });
+
+    testWidgets('Smart decimals and dirty string widget extensions render correctly', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Column(
+              children: [
+                99.99.toDirham(),
+                'AED 1,250.50'.toDirham(),
+                const DirhamVectorIcon(size: 24),
+                Text(
+                  50.toDirhamGlyphString(),
+                  style: const DirhamTextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('99.99'), findsOneWidget);
+      expect(find.text('1,250.50'), findsOneWidget);
+      expect(find.byType(DirhamVectorIcon), findsOneWidget);
+      expect(find.text('$kDirhamGlyph 50'), findsOneWidget);
     });
 
     testWidgets('Widget extensions render correctly', (tester) async {

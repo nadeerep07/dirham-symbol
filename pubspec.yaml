@@ -1,15 +1,23 @@
 name: dirham_symbol
-description: The complete UAE Dirham (AED) currency toolkit for Flutter. Features official font symbol glyph, e-commerce sale prices, animated counters, currency text fields, and extensions.
-version: 0.5.1
+description: Official UAE Dirham (AED) currency symbol, widget, and formatter for Flutter. Display Dirham icon, Arabic (د.إ), prices, and inputs with .toDirham().
+version: 0.5.2
 homepage: https://www.nadeerep.in/
 repository: https://github.com/nadeerep07/dirham-symbol
 issue_tracker: https://github.com/nadeerep07/dirham-symbol/issues
 topics:
   - currency
   - uae
-  - fintech
+  - dirham
   - ecommerce
   - formatting
+
+screenshots:
+  - description: 'Official UAE Dirham symbol icon and price formatting'
+    path: screenshots/examples.png
+  - description: 'E-Commerce sale prices, strikethrough discounts, and badges'
+    path: screenshots/light_mode.png
+  - description: 'Dark mode Dirham symbols and price widgets'
+    path: screenshots/dark_mode.png
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -30,5 +38,3 @@ flutter:
     - family: Dirham
       fonts:
         - asset: fonts/dirham_font.ttf
-  assets:
-    - screenshots/

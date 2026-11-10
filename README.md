@@ -1,41 +1,22 @@
-# UAE Dirham Symbol & Currency Suite for Flutter 🇦🇪
+# Dirham Symbol (`dirham_symbol`) 🇦🇪
 
 [![pub package](https://img.shields.io/pub/v/dirham_symbol.svg)](https://pub.dev/packages/dirham_symbol)
 [![pub points](https://img.shields.io/pub/points/dirham_symbol?color=2E8B57)](https://pub.dev/packages/dirham_symbol/score)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-All%20Platforms-02569B?logo=flutter)](https://flutter.dev)
 
-The **all-in-one UAE Dirham (AED) currency toolkit** for Flutter. Designed for modern E-Commerce, FinTech, and Banking apps across Dubai, Abu Dhabi, and the GCC.
+Display the **official UAE Dirham (AED) symbol** and format currency amounts in Flutter with **one line of code**.
 
-Includes the **official UAE Dirham font symbol glyph**, **live currency input formatters**, **strikethrough sale pricing**, **animated price counters**, **pure string formatters**, **Fils subunit math**, and **global theme support**.
-
----
-
-## ✨ Features
-
-* 💎 **Official UAE Symbols**: Native Font Glyph (`DirhamIcon`) + Arabic (`د.إ`) + Latin (`AED`, `Dh`).
-* ⚡ **Expressive Extensions**: `.toDirham()`, `.toDirhamString()`, `.toDirhamCompact()`, `.toDirhamSale()`, `.toDirhamBadge()`, `.toDirhamAnimated()`.
-* 💳 **FinTech Input Formatter**: Real-time thousands masking (`1,250.00`) with `DirhamInputFormatter` & ready-to-use `DirhamTextField`.
-* 🏷️ **E-Commerce Sale Pricing**: Slashed original prices + discounted prices + auto-calculated discount badges (`Save 25%`).
-* 📊 **Animated Balance & Price Counter**: Smooth ticker animation for carts, balances, and checkout totals.
-* 🪙 **Subunit (Fils) Math**: Seamless conversions (`10.50 AED` ↔ `1050 Fils`) for Stripe, Checkout.com, and payment gateways.
-* 🔤 **Pure String Formatting**: Return strings without widgets (`DirhamFormatter.format(...)`) for APIs, notifications, & PDFs.
-* 🎨 **App-Wide Theme**: Configure default symbol type, locale, and decimals with `DirhamTheme`.
-* 🌐 **Eastern Arabic Numerals**: Full support for Arabic-Indic numerals (`١٢٣٤٥٦٧٨٩٠`).
-* 🛡️ **100% Backward Compatible**: Drop-in upgrade with zero breaking changes.
+Lightweight, zero external SVG dependencies, and works out-of-the-box as a **Widget**, **Icon**, or **formatted `String`**.
 
 ---
 
 ## 📦 Installation
 
-Add `dirham_symbol` to your `pubspec.yaml`:
-
 ```yaml
 dependencies:
-  dirham_symbol: ^0.5.0
+  dirham_symbol: ^0.5.2
 ```
-
-Import in your Dart code:
 
 ```dart
 import 'package:dirham_symbol/dirham_symbol.dart';
@@ -43,186 +24,62 @@ import 'package:dirham_symbol/dirham_symbol.dart';
 
 ---
 
-## 🚀 Quick Start
+## ⚡ 10-Second Quick Start
 
-### 1. Extension Methods (Fastest)
+### 1. Display Price as a Widget (`.toDirham()`)
+
+Works directly on `int`, `double`, or `String`:
 
 ```dart
-// Basic price widgets
-99.99.toDirham()                                  // Official icon + 99.99
+// Official Dirham symbol + formatted amount
+99.99.toDirham()                                   // 99.99 (with official symbol)
+1500.toDirham()                                    // 1,500 (with official symbol)
 250.toDirham(symbolType: DirhamSymbolType.arabic)  // 250 د.إ
-"1500".toDirham(showDecimals: true)               // 1,500.00 AED
+"1,500.50".toDirham()                              // 1,500.50 (parses formatted strings too!)
 
-// Inline text with prefix/suffix
-149.99.toDirhamText(prefix: 'Starting from', suffix: 'only!')
-
-// Price ranges
-50.toDirhamRange(150, symbolType: DirhamSymbolType.arabic) // د.إ 50 - د.إ 150
-```
-
----
-
-### 2. Pure String Formatting (No Widgets)
-
-Generate formatted strings for **API requests, push notifications, native bridges, or PDF receipts**:
-
-```dart
-// Standard formatted string
-1500.toDirhamString()                             // "AED 1,500"
-1500.50.toDirhamString(symbolType: DirhamSymbolType.arabic, showDecimals: true) // "1,500.50 د.إ"
-
-// Compact format for large numbers
-1500.toDirhamCompact()                            // "AED 1.5K"
-2500000.toDirhamCompact(symbolType: DirhamSymbolType.arabic) // "2.5M د.إ"
-
-// Parse numeric values from dirty strings
-"AED 1,250.50".cleanDirhamAmount()                // 1250.50
-```
-
----
-
-### 3. E-Commerce Sale Prices & Badges 🛍️
-
-Showcase discounts with original strikethrough price, sale price, and automatic percentage/savings badges:
-
-```dart
-// Auto-calculates -25% discount badge
-200.toDirhamSale(150)
-
-// Detailed customization
-DirhamSalePrice(
-  originalAmount: 500,
-  saleAmount: 350,
-  badgeType: DirhamDiscountBadgeType.percentage, // or .saveAmount
-  symbolType: DirhamSymbolType.arabic,
-  axis: Axis.horizontal,                         // or Axis.vertical
-)
-
-// Promotional badges and chips
-DirhamBadge(
-  amount: 100,
-  prefix: 'Free delivery over',
-  backgroundColor: Colors.green.shade50,
-  textColor: Colors.green.shade900,
+// Custom styling
+99.99.toDirham(
+  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
 )
 ```
 
----
+### 2. Format as a `String` (`.toDirhamString()` & `.toDirhamGlyphString()`)
 
-### 4. FinTech Currency Input & Form Field 💳
-
-A plug-and-play Material 3 currency input with live comma separation, decimal locking, and currency prefix/suffix:
+Need a formatted `String` instead of a widget?
 
 ```dart
-// Ready-to-use Form Field
-DirhamTextField(
-  initialAmount: 250.0,
-  showClearButton: true,
-  decoration: InputDecoration(
-    labelText: 'Transfer Amount',
-    border: OutlineInputBorder(),
-  ),
-  onAmountChanged: (double? amount) {
-    print('Entered AED: $amount');
-  },
-  onFilsChanged: (int? fils) {
-    print('Amount in Fils: $fils'); // e.g. 25000
-  },
-)
+// Standard text symbols (AED, د.إ, Dh)
+1500.toDirhamString()                                           // "AED 1,500"
+99.99.toDirhamString()                                          // "AED 99.99"
+1500.50.toDirhamString(symbolType: DirhamSymbolType.arabic)     // "1,500.50 د.إ"
+2500000.toDirhamCompact()                                       // "AED 2.5M"
 
-// Or use the formatter with your own TextField
-TextField(
-  keyboardType: TextInputType.numberWithOptions(decimal: true),
-  inputFormatters: [
-    DirhamInputFormatter(decimalDigits: 2, maxAmount: 100000),
-  ],
+// Official Dirham Font Glyph inside a standard Flutter Text widget:
+Text(
+  99.99.toDirhamGlyphString(),
+  style: const DirhamTextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 )
 ```
 
----
-
-### 5. Animated Balance & Price Ticker ⚡
-
-Smoothly animate balance updates, shopping cart additions, and price changes:
+### 3. Standalone Dirham Icon (`DirhamIcon`)
 
 ```dart
-AnimatedDirhamPrice(
-  amount: _cartTotal,
-  duration: Duration(milliseconds: 600),
-  curve: Curves.easeOutCubic,
-  showDecimals: true,
-  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-)
-```
-
----
-
-### 6. Subunit (Fils) Math 🪙
-
-Seamlessly handle Fils for payment integrations (1 AED = 100 Fils):
-
-```dart
-// Convert AED to Fils
-10.50.toFils()              // 1050
-
-// Convert Fils to AED
-5000.filsToDirham()         // 50.0
-5000.filsToDirhamString()   // "AED 50.00"
-5000.filsToDirhamWidget()   // DirhamPrice Widget
-```
-
----
-
-### 7. App-Wide Global Theme 🎨
-
-Set your default symbol type, locale, and decimal preferences once at the root:
-
-```dart
-DirhamTheme(
-  data: DirhamThemeData(
-    symbolType: DirhamSymbolType.arabic, // Defaults all widgets to 'د.إ'
-    showDecimals: true,
-    spacing: 6.0,
-  ),
-  child: MyApp(),
+const DirhamIcon(
+  size: 28,
+  color: Color(0xFF007A3D),
 )
 ```
 
 ---
 
 ## 🔣 Symbol Types
- 
-| Type | Output | Use Case |
+
+| Type | Output | Best For |
 |:-----|:-------|:---------|
-| `DirhamSymbolType.icon` | 🇦🇪 **Official Font Glyph** | Modern UAE apps (Official brand glyph) |
+| `DirhamSymbolType.icon` | **Official UAE Dirham Glyph** (Default) | Modern UAE apps |
 | `DirhamSymbolType.arabic` | **د.إ** | Arabic & RTL interfaces |
-| `DirhamSymbolType.aed` | **AED** | Standard international apps & banking |
+| `DirhamSymbolType.aed` | **AED** | International & banking apps |
 | `DirhamSymbolType.dh` | **Dh** | Compact abbreviations |
-
----
-
-## 🔠 Native Font Glyph & Text Integration
-
-Render the official Dirham symbol using the high-performance bundled font directly as a widget or text style:
-
-```dart
-// Native Widget
-DirhamIcon(
-  size: 32,
-  color: Color(0xFF007A3D),
-  fontWeight: FontWeight.bold,
-)
-
-// Or as a raw TextStyle
-Text(
-  kDirhamGlyph,
-  style: TextStyle(
-    fontFamily: kDirhamFontFamily,
-    package: kDirhamPackage,
-    fontSize: 24,
-  ),
-)
-```
 
 ---
 
@@ -230,9 +87,9 @@ Text(
 
 <table>
   <tr>
-    <td align="center"><b>🌟 Dirham Icon & Symbols (Light)</b></td>
-    <td align="center"><b>🛍️ E-Commerce Sale Prices (Dark)</b></td>
-    <td align="center"><b>💳 FinTech & Forms</b></td>
+    <td align="center"><b>🌟 Official Symbol (Light)</b></td>
+    <td align="center"><b>🌙 Official Symbol (Dark)</b></td>
+    <td align="center"><b>🛍️ E-Commerce & Badges</b></td>
   </tr>
   <tr>
     <td><img src="https://raw.githubusercontent.com/nadeerep07/dirham-symbol/main/screenshots/examples.png" width="280"/></td>
@@ -243,14 +100,118 @@ Text(
 
 ---
 
-## 🛡️ Backward Compatibility
+## 🛠️ Classic Widgets & More Features
 
-Upgrading from `0.3.x` or `0.2.x` is **100% safe**. All existing widget declarations, parameters, and extension signatures continue to work identically without any breaking changes.
+### Traditional Widgets (Alternative to Extensions)
+
+```dart
+// Basic price widget
+const DirhamPrice(
+  amount: 150.00,
+  showDecimals: true,
+  symbolType: DirhamSymbolType.icon,
+  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+)
+
+// Inline sentence with price
+const InlineDirhamText(
+  prefix: 'Starting from',
+  amount: 99,
+  suffix: 'only!',
+)
+// Or via extension: 99.toDirhamText(prefix: 'Starting from', suffix: 'only!')
+
+// Price range
+const DirhamPriceRange(minAmount: 50, maxAmount: 150)
+// Or via extension: 50.toDirhamRange(150)
+```
+
+### E-Commerce Sale Prices & Badges
+
+Display strikethrough original prices, discounted sale prices, and auto-calculated discount badges:
+
+```dart
+// Quick extension (auto-calculates -25% badge)
+200.toDirhamSale(150)
+
+// Full widget customization
+const DirhamSalePrice(
+  originalAmount: 500,
+  saleAmount: 350,
+  badgeType: DirhamDiscountBadgeType.percentage, // or .saveAmount
+  axis: Axis.horizontal,                         // or Axis.vertical
+)
+
+// Promotional pill badge
+DirhamBadge(
+  amount: 100,
+  prefix: 'Free delivery over',
+  backgroundColor: Colors.green.shade50,
+  textColor: Colors.green.shade900,
+)
+```
+
+### Currency Input Field & Formatter
+
+Live thousands separator formatting (`1,250.00`) for forms and checkout screens:
+
+```dart
+DirhamTextField(
+  initialAmount: 250.0,
+  showClearButton: true,
+  decoration: const InputDecoration(
+    labelText: 'Amount',
+    border: OutlineInputBorder(),
+  ),
+  onAmountChanged: (double? amount) {
+    // Parsed double value (e.g. 250.0)
+  },
+)
+
+// Or use DirhamInputFormatter inside your own TextField:
+TextField(
+  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+  inputFormatters: [DirhamInputFormatter(decimalDigits: 2)],
+)
+```
+
+### Animated Price Counter
+
+Smoothly animate balance or cart total changes:
+
+```dart
+AnimatedDirhamPrice(
+  amount: cartTotal,
+  duration: const Duration(milliseconds: 500),
+  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+)
+```
+
+### App-Wide Default Theme (`DirhamTheme`)
+
+Set your preferred symbol type, locale, or decimal behavior once at the app root:
+
+```dart
+DirhamTheme(
+  data: const DirhamThemeData(
+    symbolType: DirhamSymbolType.arabic,
+    showDecimals: true,
+  ),
+  child: MyApp(),
+)
+```
+
+### Subunit (Fils) & String Parsing Helpers
+
+```dart
+10.50.toFils()                     // 1050 (1 AED = 100 Fils)
+2500.filsToDirham()                // 25.0
+2500.filsToDirhamString()          // "AED 25.00"
+"AED 1,250.50".cleanDirhamAmount() // 1250.50
+```
 
 ---
 
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) for details.
-
-Developed with ❤️ for the Flutter & UAE Developer Community.

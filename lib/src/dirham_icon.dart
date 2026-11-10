@@ -24,6 +24,46 @@ const String kDirhamFontFamily = 'Dirham';
 /// Package name identifier for loading bundled fonts.
 const String kDirhamPackage = 'dirham_symbol';
 
+/// A convenience [TextStyle] pre-configured with the bundled UAE Dirham font.
+///
+/// Use this with a standard [Text] widget and [kDirhamGlyph] or `.toDirhamGlyphString()`:
+/// ```dart
+/// Text(
+///   99.99.toDirhamGlyphString(),
+///   style: const DirhamTextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+/// )
+/// ```
+class DirhamTextStyle extends TextStyle {
+  const DirhamTextStyle({
+    super.color,
+    super.backgroundColor,
+    super.fontSize,
+    super.fontWeight,
+    super.fontStyle,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.textBaseline,
+    super.height,
+    super.leadingDistribution,
+    super.locale,
+    super.foreground,
+    super.background,
+    super.shadows,
+    super.fontFeatures,
+    super.fontVariations,
+    super.decoration,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.fontFamilyFallback,
+    super.overflow,
+  }) : super(
+          fontFamily: kDirhamFontFamily,
+          package: kDirhamPackage,
+        );
+}
+
 // ============================================================================
 // CORE WIDGETS
 // ============================================================================
@@ -181,7 +221,7 @@ class DirhamPrice extends StatelessWidget {
     final effectiveSymbolType =
         symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
     final effectiveShowDecimals =
-        showDecimals ?? themeData?.showDecimals ?? false;
+        showDecimals ?? themeData?.showDecimals ?? (amount % 1 != 0);
     final effectiveFormatNumber =
         formatNumber ?? themeData?.formatNumber ?? true;
     final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
@@ -380,7 +420,7 @@ class InlineDirhamText extends StatelessWidget {
     final effectiveSymbolType =
         symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
     final effectiveShowDecimals =
-        showDecimals ?? themeData?.showDecimals ?? false;
+        showDecimals ?? themeData?.showDecimals ?? (amount % 1 != 0);
     final effectiveFormatNumber =
         formatNumber ?? themeData?.formatNumber ?? true;
     final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
@@ -538,12 +578,12 @@ extension DirhamNumExtension on num {
     );
   }
 
-  /// Format as a pure Dart String (e.g. `"AED 1,500.00"` or `"1,500 د.إ"`).
+  /// Format as a pure Dart String (e.g. `"AED 1,500"` or `"AED 99.99"`).
   ///
   /// Perfect for API payloads, push notifications, native integrations, or PDF receipts.
   String toDirhamString({
     DirhamSymbolType symbolType = DirhamSymbolType.aed,
-    bool showDecimals = false,
+    bool? showDecimals,
     bool formatNumber = true,
     bool? symbolBefore,
     String locale = 'en_US',
@@ -561,6 +601,33 @@ extension DirhamNumExtension on num {
       useEasternArabicNumerals: useEasternArabicNumerals,
       decimalDigits: decimalDigits,
       customSymbol: customSymbol,
+    );
+  }
+
+  /// Format as a String using the official UAE Dirham font glyph (`\u00ea`).
+  ///
+  /// Pair with [DirhamTextStyle] in a standard [Text] widget:
+  /// ```dart
+  /// Text(99.99.toDirhamGlyphString(), style: const DirhamTextStyle(fontSize: 20))
+  /// ```
+  String toDirhamGlyphString({
+    bool? showDecimals,
+    bool formatNumber = true,
+    bool symbolBefore = true,
+    String locale = 'en_US',
+    bool useEasternArabicNumerals = false,
+    int? decimalDigits,
+    String separator = ' ',
+  }) {
+    return DirhamFormatter.formatWithGlyph(
+      toDouble(),
+      showDecimals: showDecimals,
+      formatNumber: formatNumber,
+      symbolBefore: symbolBefore,
+      locale: locale,
+      useEasternArabicNumerals: useEasternArabicNumerals,
+      decimalDigits: decimalDigits,
+      separator: separator,
     );
   }
 
@@ -693,7 +760,7 @@ extension DirhamStringExtension on String {
     DirhamSymbolType? symbolType,
     String? locale,
   }) {
-    final amount = double.tryParse(this) ?? 0.0;
+    final amount = DirhamFormatter.parseAmount(this);
     return DirhamPrice(
       amount: amount,
       style: style,
@@ -721,7 +788,7 @@ extension DirhamStringExtension on String {
     Color? iconColor,
     String? locale,
   }) {
-    final amount = double.tryParse(this) ?? 0.0;
+    final amount = DirhamFormatter.parseAmount(this);
     return InlineDirhamText(
       prefix: prefix,
       suffix: suffix,
@@ -748,8 +815,8 @@ extension DirhamStringExtension on String {
     bool? symbolBefore,
     String? locale,
   }) {
-    final minValue = double.tryParse(this) ?? 0.0;
-    final maxValue = double.tryParse(maxAmount) ?? 0.0;
+    final minValue = DirhamFormatter.parseAmount(this);
+    final maxValue = DirhamFormatter.parseAmount(maxAmount);
     return DirhamPriceRange(
       minAmount: minValue,
       maxAmount: maxValue,
@@ -766,7 +833,7 @@ extension DirhamStringExtension on String {
   /// Parse string and format as pure Dart String
   String toDirhamString({
     DirhamSymbolType symbolType = DirhamSymbolType.aed,
-    bool showDecimals = false,
+    bool? showDecimals,
     bool formatNumber = true,
     bool? symbolBefore,
     String locale = 'en_US',
@@ -785,6 +852,29 @@ extension DirhamStringExtension on String {
       useEasternArabicNumerals: useEasternArabicNumerals,
       decimalDigits: decimalDigits,
       customSymbol: customSymbol,
+    );
+  }
+
+  /// Parse string and format with the official UAE Dirham font glyph (`\u00ea`).
+  String toDirhamGlyphString({
+    bool? showDecimals,
+    bool formatNumber = true,
+    bool symbolBefore = true,
+    String locale = 'en_US',
+    bool useEasternArabicNumerals = false,
+    int? decimalDigits,
+    String separator = ' ',
+  }) {
+    final amount = DirhamFormatter.parseAmount(this);
+    return DirhamFormatter.formatWithGlyph(
+      amount,
+      showDecimals: showDecimals,
+      formatNumber: formatNumber,
+      symbolBefore: symbolBefore,
+      locale: locale,
+      useEasternArabicNumerals: useEasternArabicNumerals,
+      decimalDigits: decimalDigits,
+      separator: separator,
     );
   }
 

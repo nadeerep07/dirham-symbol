@@ -82,13 +82,15 @@ class _AnimatedDirhamPriceState
 
   @override
   Widget build(BuildContext context) {
-    final themeData = DirhamTheme.of(context);
-    final effectiveSymbolType = widget.symbolType ?? themeData.symbolType;
-    final effectiveShowDecimals =
-        widget.showDecimals ?? themeData.showDecimals;
+    final themeData = DirhamTheme.maybeOf(context);
+    final effectiveSymbolType =
+        widget.symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
+    final effectiveShowDecimals = widget.showDecimals ??
+        themeData?.showDecimals ??
+        (widget.amount % 1 != 0);
     final effectiveFormatNumber =
-        widget.formatNumber ?? themeData.formatNumber;
-    final effectiveLocale = widget.locale ?? themeData.locale;
+        widget.formatNumber ?? themeData?.formatNumber ?? true;
+    final effectiveLocale = widget.locale ?? themeData?.locale ?? 'en_US';
     final currentAmount = _amountTween?.evaluate(animation) ?? widget.amount;
 
     return DirhamPrice(

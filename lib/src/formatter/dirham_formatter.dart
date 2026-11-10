@@ -51,11 +51,14 @@ class DirhamFormatter {
     return buffer.toString();
   }
 
+  /// Raw Unicode character for the UAE Dirham symbol glyph in the bundled font.
+  static const String glyph = '\u00ea';
+
   /// Format an amount into a Dirham currency string (e.g. "AED 1,500.00" or "1,500 د.إ").
   ///
   /// [amount] The numeric value in Dirhams.
   /// [symbolType] Type of symbol: [DirhamSymbolType.icon], [DirhamSymbolType.arabic], etc.
-  /// [showDecimals] Whether to include decimal places (e.g. `.00`).
+  /// [showDecimals] Whether to include decimal places (e.g. `.00`). Defaults to auto-detecting fractional values.
   /// [formatNumber] Whether to apply thousands grouping separators.
   /// [symbolBefore] Place symbol before or after amount. Defaults to conventional placement.
   /// [locale] Formatting locale, e.g. `'en_US'` or `'ar_AE'`.
@@ -65,7 +68,7 @@ class DirhamFormatter {
   static String format(
     double amount, {
     DirhamSymbolType symbolType = DirhamSymbolType.aed,
-    bool showDecimals = false,
+    bool? showDecimals,
     bool formatNumber = true,
     bool? symbolBefore,
     String locale = 'en_US',
@@ -74,7 +77,8 @@ class DirhamFormatter {
     String? customSymbol,
     String separator = ' ',
   }) {
-    final digits = decimalDigits ?? (showDecimals ? 2 : 0);
+    final effectiveShowDecimals = showDecimals ?? (amount % 1 != 0);
+    final digits = decimalDigits ?? (effectiveShowDecimals ? 2 : 0);
 
     String formattedAmount;
     if (formatNumber) {
@@ -100,6 +104,32 @@ class DirhamFormatter {
     } else {
       return '$formattedAmount$separator$symbol';
     }
+  }
+
+  /// Format an amount into a string prefixed/suffixed with the official Dirham font glyph (`\u00ea`).
+  ///
+  /// Pair with `DirhamTextStyle` to render the official UAE Dirham glyph inside any standard `Text` widget.
+  static String formatWithGlyph(
+    double amount, {
+    bool? showDecimals,
+    bool formatNumber = true,
+    bool symbolBefore = true,
+    String locale = 'en_US',
+    bool useEasternArabicNumerals = false,
+    int? decimalDigits,
+    String separator = ' ',
+  }) {
+    return format(
+      amount,
+      showDecimals: showDecimals,
+      formatNumber: formatNumber,
+      symbolBefore: symbolBefore,
+      locale: locale,
+      useEasternArabicNumerals: useEasternArabicNumerals,
+      decimalDigits: decimalDigits,
+      customSymbol: glyph,
+      separator: separator,
+    );
   }
 
   /// Compactly format large amounts (e.g. `1.5K AED`, `2.4M د.إ`, `1.2B AED`).
