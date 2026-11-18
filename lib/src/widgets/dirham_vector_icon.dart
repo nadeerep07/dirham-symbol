@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Pure Flutter Canvas Painter for the official UAE Dirham symbol.
 ///
@@ -9,7 +9,7 @@ class DirhamCustomPainter extends CustomPainter {
   final double strokeWidth;
 
   const DirhamCustomPainter({
-    this.color = Colors.black,
+    this.color = const Color(0xFF000000),
     this.style = PaintingStyle.fill,
     this.strokeWidth = 1.0,
   });
@@ -126,7 +126,10 @@ class DirhamVectorIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? Theme.of(context).colorScheme.onSurface;
+    final effectiveColor = color ??
+        IconTheme.of(context).color ??
+        DefaultTextStyle.of(context).style.color ??
+        const Color(0xFF000000);
 
     return CustomPaint(
       size: Size(size, size),
@@ -134,4 +137,3 @@ class DirhamVectorIcon extends StatelessWidget {
     );
   }
 }
-

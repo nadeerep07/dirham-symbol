@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../theme/dirham_theme.dart';
 import '../dirham_icon.dart';
 
@@ -77,15 +77,15 @@ class DirhamBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final themeData = DirhamTheme.maybeOf(context);
     final effectiveSymbolType =
         symbolType ?? themeData?.symbolType ?? DirhamSymbolType.icon;
     final effectiveShowDecimals = showDecimals ?? themeData?.showDecimals;
 
-    final effectiveBgColor = backgroundColor ??
-        theme.colorScheme.primaryContainer.withValues(alpha: 0.7);
-    final effectiveTextColor = textColor ?? theme.colorScheme.onPrimaryContainer;
+    final effectiveBgColor = backgroundColor ?? const Color(0xFFE8F5E9);
+    final effectiveTextColor = textColor ??
+        DefaultTextStyle.of(context).style.color ??
+        const Color(0xFF1B5E20);
 
     final badgeChild = Container(
       padding: padding,
@@ -137,9 +137,9 @@ class DirhamBadge extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return InkWell(
+      return GestureDetector(
         onTap: onTap,
-        borderRadius: borderRadius ?? BorderRadius.circular(20),
+        behavior: HitTestBehavior.opaque,
         child: badgeChild,
       );
     }

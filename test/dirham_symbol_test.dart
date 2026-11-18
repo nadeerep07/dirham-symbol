@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
@@ -16,7 +18,8 @@ void main() {
       expect(find.text(kDirhamGlyph), findsOneWidget);
     });
 
-    testWidgets('DirhamIcon renders with custom size and color', (tester) async {
+    testWidgets('DirhamIcon renders with custom size and color',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -30,7 +33,8 @@ void main() {
   });
 
   group('DirhamSymbol & DirhamPrice Widgets', () {
-    testWidgets('DirhamSymbol renders different types correctly', (tester) async {
+    testWidgets('DirhamSymbol renders different types correctly',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -107,7 +111,8 @@ void main() {
   });
 
   group('DirhamTheme Inheritance', () {
-    testWidgets('DirhamTheme provides default settings to descendant widgets', (tester) async {
+    testWidgets('DirhamTheme provides default settings to descendant widgets',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: DirhamTheme(
@@ -131,13 +136,16 @@ void main() {
 
   group('DirhamFormatter & Conversions', () {
     test('format produces clean strings', () {
-      expect(DirhamFormatter.format(1500, symbolType: DirhamSymbolType.aed), 'AED 1,500');
+      expect(DirhamFormatter.format(1500, symbolType: DirhamSymbolType.aed),
+          'AED 1,500');
       expect(
-        DirhamFormatter.format(1500.5, symbolType: DirhamSymbolType.arabic, showDecimals: true),
+        DirhamFormatter.format(1500.5,
+            symbolType: DirhamSymbolType.arabic, showDecimals: true),
         '1,500.50 د.إ',
       );
       expect(
-        DirhamFormatter.format(99.9, symbolType: DirhamSymbolType.dh, showDecimals: true),
+        DirhamFormatter.format(99.9,
+            symbolType: DirhamSymbolType.dh, showDecimals: true),
         'Dh 99.90',
       );
     });
@@ -178,7 +186,8 @@ void main() {
   });
 
   group('DirhamSalePrice & DirhamBadge Widgets', () {
-    testWidgets('DirhamSalePrice calculates discount and shows badge', (tester) async {
+    testWidgets('DirhamSalePrice calculates discount and shows badge',
+        (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -251,7 +260,8 @@ void main() {
       expect(result.text, '1,234,567.89');
     });
 
-    testWidgets('DirhamTextField handles user typing and validation', (tester) async {
+    testWidgets('DirhamTextField handles user typing and validation',
+        (tester) async {
       double? changedAmount;
 
       await tester.pumpWidget(
@@ -279,14 +289,18 @@ void main() {
   group('Extensions on num and String', () {
     test('String formatting extensions', () {
       expect(150.toDirhamString(symbolType: DirhamSymbolType.aed), 'AED 150');
-      expect(99.99.toDirhamString(symbolType: DirhamSymbolType.aed), 'AED 99.99');
+      expect(
+          99.99.toDirhamString(symbolType: DirhamSymbolType.aed), 'AED 99.99');
       expect(99.99.toDirhamGlyphString(), '$kDirhamGlyph 99.99');
       expect(1500000.toDirhamCompact(), 'AED 1.5M');
-      expect('1250'.toDirhamString(symbolType: DirhamSymbolType.arabic), '1,250 د.إ');
+      expect('1250'.toDirhamString(symbolType: DirhamSymbolType.arabic),
+          '1,250 د.إ');
       expect('2500000'.toDirhamCompact(), 'AED 2.5M');
     });
 
-    testWidgets('Smart decimals and dirty string widget extensions render correctly', (tester) async {
+    testWidgets(
+        'Smart decimals and dirty string widget extensions render correctly',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

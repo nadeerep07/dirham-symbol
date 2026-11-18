@@ -15,7 +15,7 @@ Lightweight, zero external SVG dependencies, and works out-of-the-box as a **Wid
 
 ```yaml
 dependencies:
-  dirham_symbol: ^0.5.2
+  dirham_symbol: ^0.5.3
 ```
 
 ```dart

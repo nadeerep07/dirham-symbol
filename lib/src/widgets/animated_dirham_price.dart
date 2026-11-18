@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../theme/dirham_theme.dart';
 import '../dirham_icon.dart';
 

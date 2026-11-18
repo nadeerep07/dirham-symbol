@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../formatter/dirham_formatter.dart';
 import '../theme/dirham_theme.dart';
 import '../dirham_icon.dart';
@@ -91,7 +91,8 @@ class DirhamSalePrice extends StatelessWidget {
   }
 
   /// Calculates amount saved
-  double get savedAmount => (originalAmount - saleAmount).clamp(0.0, double.infinity);
+  double get savedAmount =>
+      (originalAmount - saleAmount).clamp(0.0, double.infinity);
 
   Widget _buildBadge(BuildContext context) {
     String text;
@@ -113,8 +114,8 @@ class DirhamSalePrice extends StatelessWidget {
         break;
     }
 
-    final bgColor = badgeColor ?? Colors.red.shade600;
-    final fgColor = badgeTextColor ?? Colors.white;
+    final bgColor = badgeColor ?? const Color(0xFFE53935);
+    final fgColor = badgeTextColor ?? const Color(0xFFFFFFFF);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -143,17 +144,21 @@ class DirhamSalePrice extends StatelessWidget {
         formatNumber ?? themeData?.formatNumber ?? true;
     final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
 
+    final baseTextColor = DefaultTextStyle.of(context).style.color ??
+        IconTheme.of(context).color ??
+        const Color(0xFF000000);
+
     final defaultSaleStyle = saleStyle ??
         TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.primary,
+          color: baseTextColor,
         );
 
     final defaultOriginalStyle = originalStyle ??
         TextStyle(
           fontSize: 14,
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+          color: baseTextColor.withValues(alpha: 0.5),
           decoration: TextDecoration.lineThrough,
         );
 

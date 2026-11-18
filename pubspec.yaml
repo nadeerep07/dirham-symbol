@@ -1,6 +1,6 @@
 name: dirham_symbol
 description: Official UAE Dirham (AED) currency symbol, widget, and formatter for Flutter. Display Dirham icon, Arabic (د.إ), prices, and inputs with .toDirham().
-version: 0.5.2
+version: 0.5.3
 homepage: https://www.nadeerep.in/
 repository: https://github.com/nadeerep07/dirham-symbol
 issue_tracker: https://github.com/nadeerep07/dirham-symbol/issues

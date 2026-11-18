@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../dirham_icon.dart';
 import 'dirham_input_formatter.dart';
@@ -146,7 +148,8 @@ class _DirhamTextFieldState extends State<DirhamTextField> {
 
   void _handleTextChange() {
     final text = _controller.text;
-    final amount = text.isEmpty ? null : DirhamInputFormatter.getUnformattedAmount(text);
+    final amount =
+        text.isEmpty ? null : DirhamInputFormatter.getUnformattedAmount(text);
     widget.onAmountChanged?.call(amount);
     if (amount != null) {
       widget.onFilsChanged?.call((amount * 100).round());
@@ -175,8 +178,11 @@ class _DirhamTextFieldState extends State<DirhamTextField> {
         );
 
     final effectiveDecoration = defaultDecoration.copyWith(
-      prefixIcon: widget.symbolInPrefix ? _buildSymbol() : defaultDecoration.prefixIcon,
-      suffixIcon: widget.showClearButton && _controller.text.isNotEmpty && !widget.readOnly
+      prefixIcon:
+          widget.symbolInPrefix ? _buildSymbol() : defaultDecoration.prefixIcon,
+      suffixIcon: widget.showClearButton &&
+              _controller.text.isNotEmpty &&
+              !widget.readOnly
           ? IconButton(
               icon: const Icon(Icons.clear, size: 18),
               onPressed: () {
@@ -184,7 +190,9 @@ class _DirhamTextFieldState extends State<DirhamTextField> {
                 widget.onChanged?.call('');
               },
             )
-          : (!widget.symbolInPrefix ? _buildSymbol() : defaultDecoration.suffixIcon),
+          : (!widget.symbolInPrefix
+              ? _buildSymbol()
+              : defaultDecoration.suffixIcon),
     );
 
     return TextFormField(

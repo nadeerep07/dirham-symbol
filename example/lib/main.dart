@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:dirham_symbol/dirham_symbol.dart';
 
@@ -15,8 +17,9 @@ class _DirhamExampleAppState extends State<DirhamExampleApp> {
 
   void _toggleTheme() {
     setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      _themeMode = _themeMode == ThemeMode.light
+          ? ThemeMode.dark
+          : ThemeMode.light;
     });
   }
 
@@ -63,12 +66,17 @@ class ExampleHomePage extends StatelessWidget {
           children: [
             DirhamIcon(size: 24, color: Color(0xFF007A3D)),
             SizedBox(width: 8),
-            Text('Dirham Symbol Suite', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              'Dirham Symbol Suite',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded),
+            icon: Icon(
+              isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+            ),
             onPressed: onToggleTheme,
             tooltip: 'Toggle Theme',
           ),
@@ -85,11 +93,41 @@ class ExampleHomePage extends StatelessWidget {
               runSpacing: 12,
               alignment: WrapAlignment.spaceEvenly,
               children: [
-                Column(children: [DirhamIcon(size: 36, color: Color(0xFF007A3D)), SizedBox(height: 4), Text('Official Font', style: TextStyle(fontSize: 11))]),
-                Column(children: [DirhamIcon(size: 36, color: Color(0xFFC8102E)), SizedBox(height: 4), Text('Tinted Red', style: TextStyle(fontSize: 11))]),
-                Column(children: [DirhamSymbol(type: DirhamSymbolType.arabic, size: 24), SizedBox(height: 4), Text('Arabic (د.إ)', style: TextStyle(fontSize: 11))]),
-                Column(children: [DirhamSymbol(type: DirhamSymbolType.aed, size: 20), SizedBox(height: 4), Text('AED Code', style: TextStyle(fontSize: 11))]),
-                Column(children: [DirhamSymbol(type: DirhamSymbolType.dh, size: 20), SizedBox(height: 4), Text('Dh Short', style: TextStyle(fontSize: 11))]),
+                Column(
+                  children: [
+                    DirhamIcon(size: 36, color: Color(0xFF007A3D)),
+                    SizedBox(height: 4),
+                    Text('Official Font', style: TextStyle(fontSize: 11)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    DirhamIcon(size: 36, color: Color(0xFFC8102E)),
+                    SizedBox(height: 4),
+                    Text('Tinted Red', style: TextStyle(fontSize: 11)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    DirhamSymbol(type: DirhamSymbolType.arabic, size: 24),
+                    SizedBox(height: 4),
+                    Text('Arabic (د.إ)', style: TextStyle(fontSize: 11)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    DirhamSymbol(type: DirhamSymbolType.aed, size: 20),
+                    SizedBox(height: 4),
+                    Text('AED Code', style: TextStyle(fontSize: 11)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    DirhamSymbol(type: DirhamSymbolType.dh, size: 20),
+                    SizedBox(height: 4),
+                    Text('Dh Short', style: TextStyle(fontSize: 11)),
+                  ],
+                ),
               ],
             ),
           ),
@@ -102,11 +140,17 @@ class ExampleHomePage extends StatelessWidget {
               children: [
                 _row('99.99.toDirham()', 99.99.toDirham(showDecimals: true)),
                 const Divider(),
-                _row('"1500".toDirham(arabic)', "1500".toDirham(symbolType: DirhamSymbolType.arabic)),
+                _row(
+                  '"1500".toDirham(arabic)',
+                  "1500".toDirham(symbolType: DirhamSymbolType.arabic),
+                ),
                 const Divider(),
                 _row('50.toDirhamRange(150)', 50.toDirhamRange(150)),
                 const Divider(),
-                _row('Inline text', 149.toDirhamText(prefix: 'From', suffix: 'only!')),
+                _row(
+                  'Inline text',
+                  149.toDirhamText(prefix: 'From', suffix: 'only!'),
+                ),
               ],
             ),
           ),
@@ -124,8 +168,18 @@ class ExampleHomePage extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    DirhamBadge(amount: 100, prefix: 'Free delivery over', backgroundColor: Colors.green.shade50, textColor: Colors.green.shade900),
-                    DirhamBadge(amount: 25, prefix: 'Cashback:', backgroundColor: Colors.amber.shade50, textColor: Colors.amber.shade900),
+                    DirhamBadge(
+                      amount: 100,
+                      prefix: 'Free delivery over',
+                      backgroundColor: Colors.green.shade50,
+                      textColor: Colors.green.shade900,
+                    ),
+                    DirhamBadge(
+                      amount: 25,
+                      prefix: 'Cashback:',
+                      backgroundColor: Colors.amber.shade50,
+                      textColor: Colors.amber.shade900,
+                    ),
                   ],
                 ),
               ],
@@ -174,7 +228,10 @@ class ExampleHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
             const SizedBox(height: 12),
             content,
           ],
@@ -189,7 +246,12 @@ class ExampleHomePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(child: Text(label, style: const TextStyle(fontSize: 13, color: Colors.grey))),
+          Flexible(
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 13, color: Colors.grey),
+            ),
+          ),
           const SizedBox(width: 8),
           child,
         ],

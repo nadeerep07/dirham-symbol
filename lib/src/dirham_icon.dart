@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 import 'formatter/dirham_formatter.dart';
@@ -93,7 +93,10 @@ class DirhamIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColor = color ?? Theme.of(context).colorScheme.onSurface;
+    final defaultColor = color ??
+        IconTheme.of(context).color ??
+        DefaultTextStyle.of(context).style.color ??
+        const Color(0xFF000000);
 
     return Text(
       kDirhamGlyph,
@@ -139,8 +142,11 @@ class DirhamSymbol extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColor =
-        color ?? textStyle?.color ?? Theme.of(context).colorScheme.onSurface;
+    final defaultColor = color ??
+        textStyle?.color ??
+        IconTheme.of(context).color ??
+        DefaultTextStyle.of(context).style.color ??
+        const Color(0xFF000000);
 
     switch (type) {
       case DirhamSymbolType.icon:
@@ -226,11 +232,15 @@ class DirhamPrice extends StatelessWidget {
         formatNumber ?? themeData?.formatNumber ?? true;
     final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
 
+    final defaultTextColor = DefaultTextStyle.of(context).style.color ??
+        IconTheme.of(context).color ??
+        const Color(0xFF000000);
+
     final effectiveStyle = style ??
         themeData?.style ??
         TextStyle(
           fontSize: 16,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: defaultTextColor,
         );
 
     final effectiveColor =
@@ -329,10 +339,14 @@ class DirhamPriceRange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultTextColor = DefaultTextStyle.of(context).style.color ??
+        IconTheme.of(context).color ??
+        const Color(0xFF000000);
+
     final defaultStyle = style ??
         TextStyle(
           fontSize: 16,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: defaultTextColor,
         );
 
     return Row(
@@ -425,11 +439,15 @@ class InlineDirhamText extends StatelessWidget {
         formatNumber ?? themeData?.formatNumber ?? true;
     final effectiveLocale = locale ?? themeData?.locale ?? 'en_US';
 
+    final defaultTextColor = DefaultTextStyle.of(context).style.color ??
+        IconTheme.of(context).color ??
+        const Color(0xFF000000);
+
     final textStyle = style ??
         themeData?.style ??
         TextStyle(
           fontSize: 16,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: defaultTextColor,
         );
 
     // Format or not based on flag, with consistent locale

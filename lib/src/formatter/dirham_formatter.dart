@@ -154,11 +154,14 @@ class DirhamFormatter {
     String compactNumber;
 
     if (absAmount >= 1e9) {
-      compactNumber = '$sign${(absAmount / 1e9).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}B';
+      compactNumber =
+          '$sign${(absAmount / 1e9).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}B';
     } else if (absAmount >= 1e6) {
-      compactNumber = '$sign${(absAmount / 1e6).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}M';
+      compactNumber =
+          '$sign${(absAmount / 1e6).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}M';
     } else if (absAmount >= 1e3) {
-      compactNumber = '$sign${(absAmount / 1e3).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}K';
+      compactNumber =
+          '$sign${(absAmount / 1e3).toStringAsFixed(decimalDigits).replaceAll(RegExp(r'\.0+$'), '')}K';
     } else {
       compactNumber = '$sign${absAmount.toStringAsFixed(0)}';
     }

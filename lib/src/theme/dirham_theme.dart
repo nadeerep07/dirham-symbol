@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../models/enums.dart';
 
 /// Configuration data for [DirhamTheme]

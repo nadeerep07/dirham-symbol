@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.5.3] - 2026-11-18
+
+### 🔧 Static Analysis & Compatibility
+- Migrated core widgets (`DirhamIcon`, `DirhamSymbol`, `DirhamPrice`, `DirhamPriceRange`, `InlineDirhamText`, `DirhamSalePrice`, `DirhamBadge`, `AnimatedDirhamPrice`, `DirhamVectorIcon`, and `DirhamTheme`) to `package:flutter/widgets.dart` so they work in any Flutter app (`MaterialApp`, `CupertinoApp`, or `WidgetsApp`) without triggering Flutter 3.47+ `material.dart` deprecation notices on pub.dev.
+- Applied standard `dart format` across all library, example, and test files for 50/50 static analysis points.
+
+---
+
 ## [0.5.2] - 2026-11-11
 
 ### ✨ Improvements & Fixes

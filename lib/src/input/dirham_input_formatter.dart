@@ -65,7 +65,8 @@ class DirhamInputFormatter extends TextInputFormatter {
     }
 
     // Check max amount if specified
-    final parsedValue = double.tryParse('$integerPart${parts.length > 1 ? '.$decimalPart' : ''}');
+    final parsedValue = double.tryParse(
+        '$integerPart${parts.length > 1 ? '.$decimalPart' : ''}');
     if (parsedValue != null && maxAmount != null) {
       final signMulti = isNegative ? -1.0 : 1.0;
       if ((parsedValue * signMulti).abs() > maxAmount!) {
